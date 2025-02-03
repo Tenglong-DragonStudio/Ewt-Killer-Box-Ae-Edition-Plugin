@@ -5,11 +5,11 @@ import { ProgressBar } from "../component_classes/progress_bar";
 import { IQuestion, Option, OptionQuestion } from "../pojo/option";
 import { Paper } from "../pojo/fih_objects";
 import { QuestionComponentDesc } from "../pojo/QuestionCompont";
-import config from "../config";
 import { delay } from "@/utils/stringutil";
 import { ordiBtn } from "@/css/index.css";
 import { homework_style, circle_styles, mstyle } from "../utils/style_manager";
 import { exam_img, unlock_svg } from "../utils/resources";
+import { dict } from "@/type";
 
 export class HomeworkView extends View {
     private homeworkController: CourseHomeworkController;
@@ -31,10 +31,6 @@ export class HomeworkView extends View {
     constructor(paperid: string | number, bizcode: string | number, platform: string | number, homeworkid?: string | number) {
         super();
         this.paperId = paperid.toString();
-        this.initializeController(paperid, bizcode, platform, homeworkid);
-    }
-
-    private initializeController(paperid: string | number, bizcode: string | number, platform: string | number, homeworkid?: string | number) {
         this.homeworkController = new CourseHomeworkController();
         if (homeworkid === undefined) {
             this.homeworkController.addHomeworkWithPaperId(paperid.toString());
@@ -120,7 +116,7 @@ export class HomeworkView extends View {
             await this.homeworkController.FillOptionsAll();
             let finished = false;
             while (true) {
-                const dat = await this.homeworkController.GetTask();
+                const dat:dict = await this.homeworkController.GetTask();
                 if (dat["all"] === dat["do"]) {
                     btn.text("填写完成!");
                     finished = true;
@@ -155,7 +151,7 @@ export class HomeworkView extends View {
             await this.homeworkController.FinishAll();
             let finished = false;
             while (true) {
-                const dat = await this.homeworkController.GetTask();
+                const dat:dict = await this.homeworkController.GetTask();
                 if (dat["all"] === dat["do"]) {
                     btn.text("交卷完成!");
                     finished = true;

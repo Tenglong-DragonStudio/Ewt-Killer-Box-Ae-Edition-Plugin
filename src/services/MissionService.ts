@@ -52,12 +52,12 @@ export class MissionService implements IMissionService {
   }
 
 
-  private loadSelection() {
+  private async loadSelection() {
     this.selection_key = `localdata.${this.homeworkIds}.selection`;
-    if(SGM_getValue(this.selection_key)==undefined)
+    if(await SGM_getValue(this.selection_key)==undefined)
       this.selection_arr=[]
     else
-      this.selection_arr=eval(`(${SGM_getValue(this.selection_key)})`)
+      this.selection_arr=JSON.parse(await SGM_getValue(this.selection_key))
     this.saveSelection()
   }
 

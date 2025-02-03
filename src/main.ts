@@ -46,7 +46,7 @@ async function openBox() {
     if (isOnPractisePage()) {
         viewComponent = new HomeworkView(attr["paperId"], attr["bizCode"], attr["platform"], attr["homeworkId"]).surfaceComponent();
     } else if (isInTaskPage()) {
-        viewComponent = (new TaskView().build(attr["homeworkId"])).then((view) => view.surfaceComponent());
+        viewComponent = new TaskView().build(attr["homeworkId"]).surfaceComponent()
     } else if (isInCoursePage()) {
         viewComponent = new CourseView().build().then(view => view.surfaceComponent());
     } else if (isInHolidayFrame()) {
@@ -66,15 +66,25 @@ async function getUser(): Promise<User> {
         userInterface.getBasicUserInfo(),
         userInterface.getApiUserInfo()
     ]); 
-    return {
-        id: dat0["userId"],
-        name: dat0["realName"],
-        photoUrl: dat0["photoUrl"],
-        token: getUserToken(),
-        school: dat1?.schoolId,
-        isvip: apidat["isvip"] || false,
-        opcount: apidat["opcount"] || 0
-    };
+    if(dat0 != null) {
+        return {
+            id: dat0["userId"],
+            name: dat0["realName"],
+            photoUrl: dat0["photoUrl"],
+            token: getUserToken(),
+            school: dat1?.schoolId,
+            isvip: apidat["isvip"] || false,
+            opcount: apidat["opcount"] || 0
+        };
+    } else {
+        return {
+            id: undefined,
+            name: undefined,
+            photoUrl: undefined,
+            isvip: false
+        }
+    }
+
 }
 
 export async function updateUserInfo() {
@@ -130,10 +140,8 @@ let orderHistoryBtn = getMenuBtn("yellow", $(order_svg).css({ height: "20px", wi
 
 export let log: LogSystem;
 $(async () => {
-    [log, user] = await Promise.all([
-        new LogSystem().build(),
-        getUser()
-    ]);
+    log = await new LogSystem().build()
+    user = await getUser()
     await openUpdateAndVersionBox();
 
     open.addClass("default-open-btn");

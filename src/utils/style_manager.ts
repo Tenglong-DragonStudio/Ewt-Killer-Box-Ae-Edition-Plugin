@@ -11,7 +11,6 @@ import * as a_style from "../css/activate.css"
 import * as shop_s from "../css/shop.css"
 import * as update_i from "../css/update_info.css"
 import * as purchase_h from "../css/purchase_history.css"
-import * as action from "../css/action.css"
 
 export const mstyle = mcss //提前声明css语句块,避免后续出现很大的幺蛾子
 export const homework_style = homeworkcss
