@@ -10,7 +10,6 @@ export class HomeworkDao {
     CHECK_STATE_URL = `${Config.mip}/specialapi/task/status?tid={tid}`
     LESSON_HOMEWORK_URL = "https://gateway.ewt360.com/api/homeworkprod/player/getPlayerLessonConfig";
     INFO_URL = "https://web.ewt360.com/customerApi/api/studyprod/web/answer/report?&platform=1&isRepeat=1&paperId={paperId}&bizCode={bizCode}"
-    REPORT_URL = `${Config.mip}/api/homework/fillPapers`
     AVL_URL = `${Config.mip}/specialapi/paper/available?paperId={paperId}`
     PAPER_GET_URL = `https://web.ewt360.com/api/answerprod/web/answer/paper?paperId={paperId}&platform=1&reportId={reportId}&bizCode={bizCode}`
 
@@ -36,12 +35,11 @@ export class HomeworkDao {
         return validateReturn(res["responseText"])
     }
 
-    async FinishHomework(
-        homeworks: Array<IHomeworkService>,
-        fill_option: number
+    async FinishHomeworkOptions(
+        homeworks: Array<IHomeworkService>
     ) {
         let data:any = []
-        let url = fill_option == 1 ? this.FILL_OPTION_URL : this.REPORT_URL
+        let url = this.FILL_OPTION_URL
         for(let i of homeworks) {
             data.push({
                 bizCode: i.bizcode,

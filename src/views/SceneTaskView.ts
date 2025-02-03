@@ -127,7 +127,7 @@ export class SceneTaskView extends View {
         let foot = $(`<div class="${taskFooter}"></div>`)
 
         let courseBtn = $(`<div class="${ordiBtn}" style="margin-right: 5px">刷课</div>`)
-        let hwkBtn = $(`<div class="${ordiBtn}" style="margin-right: 5px">交卷</div>`)
+        let hwkBtn = $(`<div class="${ordiBtn}" style="margin-right: 5px">填选择题</div>`)
         let fresh = $(`<div class="${ordiBtn}" style="margin-right: 0;">(当天)全(不)选...</div>`)
         let uns = $(`<div class="${ordiBtn}" id="unselect" style="margin-right: 5px;margin-left: auto">反选所有已选(数量:${this.mission.selection_arr.length})...</div>`)
 
@@ -243,7 +243,7 @@ export class SceneTaskView extends View {
                 await this.fihHomework.addExamPaper(i.curl)
         }
 
-        let status = await this.fihHomework.FinishAll()
+        let status = await this.fihHomework.FillOptionsAll()
         if(status["code"] != 200) {
             btn.text(`错误(${status["message"]})`)
             return
@@ -255,7 +255,7 @@ export class SceneTaskView extends View {
                     btn.text(`错误(${dat["data"]["errmessage"]})`)
                     break
                 } else if(dat["data"]["all"] == dat["data"]["do"]) {
-                    btn.text(`交卷完成!`)
+                    btn.text(`填写选择题完成!`)
                     break
                 } else {
                     btn.text(`进度:${parseInt(String((<any>dat)["data"]["do"] / dat["data"]["all"] * 1000)) / 10}%`)

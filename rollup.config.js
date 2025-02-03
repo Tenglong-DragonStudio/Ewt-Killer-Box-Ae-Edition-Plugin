@@ -23,7 +23,7 @@ const headerDev = {
 const headerBuild = {
   basic: {
     "@name": "EWT Killer Box(Ae Edition)",
-    "@version": "5.0.3-AeF",
+    "@version": "5.0.5-AeF",
   },
   extra: {
     "@description": "一个专门用于EWT的辅助插件.",

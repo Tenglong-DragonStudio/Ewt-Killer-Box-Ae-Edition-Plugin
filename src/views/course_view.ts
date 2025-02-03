@@ -84,7 +84,7 @@ export class CourseView extends View {
 
         let func_con = $(`<div class="${funcBtnsContainer}"></div>`)
         let sk = $(`<div class="${ordiBtn} ${funcBtn}">刷课</div>`)
-        let fp = $(`<div class="${ordiBtn} ${funcBtn}">一键交卷</div>`)
+        let fp = $(`<div class="${ordiBtn} ${funcBtn}">一键填选择题</div>`)
 
         sk.on('click',async ()=>{
             await this.finishCourse(sk,this.coursec)
@@ -138,16 +138,16 @@ export class CourseView extends View {
 
         fp.text("请等待...")
 
-        await this.homeworkc.FinishAll()
+        await this.homeworkc.FillOptionsAll()
         while (true) {
             let dat = await this.homeworkc.GetTask()
             if((<any>dat)["state"] == 200) {
-                fp.text(`交卷完成!`)
+                fp.text(`填写选择题完成!`)
                 break
             } else if((<any>dat)["state"] >= 0){
                 fp.text(`进度${parseInt(String((<any>dat)["progress"] * 1000)) / 10}%`)
             } else {
-                fp.text(`交卷失败.(-1)`)
+                fp.text(`填写选择题失败.(-1)`)
                 break
             }
             await delay(100)

@@ -11,7 +11,7 @@ export interface IHomeworkController {
 
     addHomework(homeworkId: string,lesson:number):Promise<void>
     emptyHomework():void
-    FinishAll(): Promise<dict>
+    FillOptionsAll(): Promise<dict>
     GetTask(): Promise<object>
 }
 
@@ -66,16 +66,8 @@ export class CourseHomeworkController implements IHomeworkController {
         this.papers.push(ins)
     }
 
-    async FinishAll():Promise<dict> {
-        let ret:dict = await this.dao.FinishHomework(this.papers,0)
-        if(ret["code"] == 200) {
-            this.taskid = ret["data"]["tid"]
-        }
-        return ret
-    }
-
     async FillOptionsAll():Promise<dict> {
-        let ret:dict = await this.dao.FinishHomework(this.papers,1)
+        let ret:dict = await this.dao.FinishHomeworkOptions(this.papers)
         if(ret["code"] == 200) {
             this.taskid = ret["data"]["tid"]
         }

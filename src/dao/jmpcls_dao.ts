@@ -10,7 +10,7 @@ export class CourseDao { //详细逻辑处理
     COURSE_DETAIL: string = "https://gateway.ewt360.com/api/homeworkprod/player/getLessonDetail";
     LESSON_HOMEWORK_URL = "https://gateway.ewt360.com/api/homeworkprod/player/getPlayerLessonConfig";
     COURSE_BATCH_URL = `${Config.mip}/api/course/FinishCourse`
-    CHECK_STATE_URL = `${Config.mip}/specialapi/task/status?tid={tid}`
+    CHECK_STATE_URL = `${Config.mip}/task/status?tid={tid}`
 
     async getCourseInfo(lessonid: string | number, schoolid: string | number, homeworkid: string | number): Promise<Object> {
         let data: any = {

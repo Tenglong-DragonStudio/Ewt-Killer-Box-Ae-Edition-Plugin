@@ -55,8 +55,7 @@ export class ActivateView extends View {
         r.append($(`<div style="display: flex;font-size: 11px;font-weight: bold;"><div>操作消耗点数</div</div>`))
         r.append($(`<div style="display: flex"><div>刷课</div><div class="${activateInfoKvV}">2</div>`))
         r.append($(`<div style="display: flex"><div>填写选择题</div><div class="${activateInfoKvV}">1</div>`))
-        r.append($(`<div style="display: flex"><div>交卷</div><div class="${activateInfoKvV}">2</div>`))
-        r.append($(`<div style="display: flex"><div>解锁试卷解析</div><div class="${activateInfoKvV}">1</div>`))
+        r.append($(`<div style="display: flex"><div>解锁试卷解析</div><div class="${activateInfoKvV}">2</div>`))
         
         leftbar.append(r)
         root.append(leftbar)
