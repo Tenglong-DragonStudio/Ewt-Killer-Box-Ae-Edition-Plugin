@@ -34,6 +34,9 @@ import {Paper} from "@/pojo/fih_objects";
 import { dict } from "../type";
 
 export class TaskView extends View {
+    then(arg0: (view: any) => any): Promise<JQuery<HTMLElement>> {
+        throw new Error("Method not implemented.");
+    }
     loading: boolean;
     prog?:ProgressBar
 

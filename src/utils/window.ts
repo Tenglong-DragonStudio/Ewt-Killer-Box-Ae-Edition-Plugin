@@ -10,7 +10,6 @@ import {User} from "@/pojo/user";
 import {getDateTimeFromStamp} from "@/utils/stringutil";
 import {UserInfoInterface} from "@/dao/UserInfoDao";
 import {dict} from "@/type";
-import { first_read_text } from "./constants";
 
 let op_entire = $()
 export function  isOnPractisePage() {
@@ -226,15 +225,4 @@ export function NoPage() {
     }
     root.append(container)
     return root
-}
-
-export function Notice() {
-    let rt = $(`<div></div>`)
-    rt.append(`<div style="undefined;margin-top: 10px;font-size: 25px;font-weight: bolder;">公告</div>`)
-    rt.append($(`<div>${first_read_text}</div>`))
-    rt.append($(`<div style="
-    color: red;
-    font-weight: bolder;
-">按 右上角的红点 关闭此窗口.</div>`))
-    return rt
 }

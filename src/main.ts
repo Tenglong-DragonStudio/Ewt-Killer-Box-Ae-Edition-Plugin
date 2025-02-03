@@ -16,8 +16,8 @@ import {
 
 import { SGM_getValue, SGM_info, SGM_setValue } from "./utils/function";
 import { HomeworkView } from "./views/homework_view";
-import { donate_img, input_key_img, log_img, open_img, order_svg, setting_img, statisticsbtn_img, update_svg } from "./utils/resources";
-import { getUrlInfo, request, requestJson } from "./utils/request";
+import { input_key_img, log_img, open_img, order_svg, setting_img, statisticsbtn_img, update_svg } from "./utils/resources";
+import { getUrlInfo } from "./utils/request";
 import { TaskView } from "./views/TaskView";
 import { CourseView } from "./views/course_view";
 import { LogView } from "./views/log_view";
@@ -46,7 +46,7 @@ async function openBox() {
     if (isOnPractisePage()) {
         viewComponent = new HomeworkView(attr["paperId"], attr["bizCode"], attr["platform"], attr["homeworkId"]).surfaceComponent();
     } else if (isInTaskPage()) {
-        viewComponent = new TaskView().build(attr["homeworkId"]).then(view => view.surfaceComponent());
+        viewComponent = (new TaskView().build(attr["homeworkId"])).then((view) => view.surfaceComponent());
     } else if (isInCoursePage()) {
         viewComponent = new CourseView().build().then(view => view.surfaceComponent());
     } else if (isInHolidayFrame()) {
@@ -60,20 +60,20 @@ async function openBox() {
 
 async function getUser(): Promise<User> {
     let userInterface = new UserInfoInterface();
+
     const [dat1, dat0, apidat] = await Promise.all([
         userInterface.getSchoolInfo(),
         userInterface.getBasicUserInfo(),
         userInterface.getApiUserInfo()
-    ]);
-
+    ]); 
     return {
-        id: dat0?.["userId"],
-        name: dat0?.["realName"],
-        photoUrl: dat0?.["photoUrl"],
+        id: dat0["userId"],
+        name: dat0["realName"],
+        photoUrl: dat0["photoUrl"],
         token: getUserToken(),
         school: dat1?.schoolId,
-        isvip: apidat?.["isvip"] || false,
-        opcount: apidat?.["opcount"] || 0,
+        isvip: apidat["isvip"] || false,
+        opcount: apidat["opcount"] || 0
     };
 }
 
@@ -94,7 +94,6 @@ export function clearAllCloseWindowTimeout() {
 
 async function openUpdateAndVersionBox() {
     let { vcode, update_log, version, location } = await getLatestVersion();
-    console.log(vcode);
     if (config.version < vcode) {
         renderBackground();
         renderWindow(undefined, await new CheckUpdateView(update_log, location, version).surfaceComponent(), true);
@@ -111,11 +110,9 @@ async function openUpdateAndVersionBox() {
 
 // 使用事件委托
 // 调用 getMenuBtn 时，不直接绑定 click 事件，而是在按钮上添加统一类及 data 属性保存动作
-let open = getMenuBtn("red", $(open_img), "打开工具箱", null);
-open.addClass("tm-menu-btn").data("action", async () => { await openBox(); });
+let open = getMenuBtn("red", $(open_img), "打开工具箱", async () => { await openBox(); });
 
-let logbtn = getMenuBtn("green", $(log_img), "程序日志记录", null);
-logbtn.addClass("tm-menu-btn").data("action", async () => {
+let logbtn = getMenuBtn("green", $(log_img), "程序日志记录", async () => {
     if (user?.id) {
         renderBackground();
         renderWindow(undefined, (<JQuery<HTMLElement>>((new LogView()).surfaceComponent())), true);
@@ -126,8 +123,7 @@ logbtn.addClass("tm-menu-btn").data("action", async () => {
     }
 });
 
-let orderHistoryBtn = getMenuBtn("yellow", $(order_svg).css({ height: "20px", width: "20px" }), "付款历史记录", null);
-orderHistoryBtn.addClass("tm-menu-btn").data("action", async () => {
+let orderHistoryBtn = getMenuBtn("yellow", $(order_svg).css({ height: "20px", width: "20px" }), "付款历史记录", async () => {
     renderBackground();
     renderWindow(undefined, await new PurchaseHistoryView().surfaceComponent(), true);
 });
@@ -142,8 +138,7 @@ $(async () => {
 
     open.addClass("default-open-btn");
 
-    let ikbtn = getMenuBtn("purple", $(input_key_img), "激活", null);
-    ikbtn.addClass("tm-menu-btn").data("action", async () => {
+    let ikbtn = getMenuBtn("purple", $(input_key_img), "激活", ()=> {
         if (!user?.id) {
             document.location.href = "https://web.ewt360.com/register/#/login";
         } else {

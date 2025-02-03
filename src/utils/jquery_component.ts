@@ -21,7 +21,7 @@ export function getBtn(color:string,text:string,click:()=>{}) {
     return btn;
 }
 
-export function getMenuBtn(color:string,imgelement:JQuery<HTMLElement>,text:string,click:()=>{}) {
+export function getMenuBtn(color:string,imgelement:JQuery<HTMLElement>,text:string,click:Function) {
     // @ts-ignore
     let main = $(`<div class="${style["menu-window-btn"]} ${circle_styles["btn" + color[0].toUpperCase() + color.substring(1)].toString()}"></div>`)
     main.append(imgelement)
@@ -30,7 +30,9 @@ export function getMenuBtn(color:string,imgelement:JQuery<HTMLElement>,text:stri
     let btne = $(`<div class="`+style.menuBtnContainer+`"></div>`)
     btne.append(main)
     btne.append(texte)
-    btne.click(click)
+
+    btne.addClass("tm-menu-btn")
+    btne.data("action",click)
     return btne;
 }
 

@@ -17,18 +17,18 @@ export class UserInfoInterface {
 
     async getApiUserInfo() {
         let res:any= await request("POST",this.API_USER_URL,headers["CommonHeader"],null);
-        return validateReturn(res["responseText"])
+        return <dict>validateReturn(res["responseText"])
     }
 
     async getBasicUserInfo() {
 
         let res:any= await request("GET",this.GET_USER_URL,headers["CommonHeader"],null);
-        return validateReturn(res["responseText"])
+        return <dict>validateReturn(res["responseText"])
     }
     async getSchoolInfo() {
         let res:any = await request("GET",this.SCHOOL_URL,headers["CourseHeader"]);
         let data:any= validateReturn(res["responseText"])
-        return data;
+        return <dict>data;
     }
 
 
