@@ -9,7 +9,7 @@ export class HomeworkDao {
     FILL_OPTION_URL = `${Config.mip}/api/homework/fillOptions`
     CHECK_STATE_URL = `${Config.mip}/specialapi/task/status?tid={tid}`
     LESSON_HOMEWORK_URL = "https://gateway.ewt360.com/api/homeworkprod/player/getPlayerLessonConfig";
-    INFO_URL = "https://web.ewt360.com/customerApi/api/studyprod/web/answer/report?&platform=1&isRepeat=1&paperId={paperId}&bizCode={bizCode}"
+    INFO_URL = "https://web.ewt360.com/api/answerprod/web/answer/report?&platform=1&isRepeat=1&paperId={paperId}&bizCode={bizCode}"
     AVL_URL = `${Config.mip}/specialapi/paper/available?paperId={paperId}`
     PAPER_GET_URL = `https://web.ewt360.com/api/answerprod/web/answer/paper?paperId={paperId}&platform=1&reportId={reportId}&bizCode={bizCode}`
 

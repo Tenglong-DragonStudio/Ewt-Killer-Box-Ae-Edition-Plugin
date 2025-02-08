@@ -4,7 +4,7 @@ import {SGM_xmlhttpRequest} from "./function";
 
 export function validateReturn(Value:string) : Object {
     let json = JSON.parse(Value);
-
+    if(json["code"] == 429) throw Error()
     if(json["success"] != true)
         log.error("用户"+(user == undefined ? undefined : user.id)+"访问接口失败,原因在于:"+json.msg+",代码为:"+json.code);
     return json["data"];
