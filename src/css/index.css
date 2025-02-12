@@ -651,23 +651,28 @@ p {
     height: 20px;
 }
 
-.ordi-btn {
+.small-ordi-btn, .ordi-btn {
 
     background-color: rgb(0,0,0,0);
-    padding: 1px 7px;
+    padding: 4px 15px;
     outline-style: none;
     box-shadow: 0 0 5px gray;
-    font-size: 10px;
+    font-size: 12px;
     border-radius: 5px;
 
     transition: background-color 200ms;
 }
 
-.ordi-btn:hover {
+.small-ordi-btn {
+    padding: 3px 10px;
+    font-size: 10px;
+}
+
+.small-ordi-btn:hover,.ordi-btn:hover {
     background-color: rgb(0,0,0,0.08);
 }
 
-.ordi-btn:active {
+.small-ordi-btn:active,.ordi-btn:active {
     background-color: #b4afaf;
 }
 

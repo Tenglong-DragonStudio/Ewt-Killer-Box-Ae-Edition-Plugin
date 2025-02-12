@@ -137,7 +137,7 @@
 .convert-operate-log-box {
     width: 100%;
     padding: 5px;
-    display: flex;
+    display: fl1ex;
     font-size: 10px;
     box-shadow: 0 0 3px gray;
     overflow-y: auto;

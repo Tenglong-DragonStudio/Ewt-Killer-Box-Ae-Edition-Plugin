@@ -7,7 +7,7 @@ import { closeWindow } from "@/utils/window";
 import {View} from "@/views/pub_view";
 import { dict } from "../type";
 import { ShopItem } from "@/pojo/shopitems";
-import { activateInfoBox, activateInfoKvV, ordiBtn } from "@/css/index.css";
+import { activateInfoBox, activateInfoKvV, ordiBtn, smallOrdiBtn } from "@/css/index.css";
 import { getBtn } from "@/utils/jquery_component";
 
 interface SelectBoxElement {
@@ -46,7 +46,11 @@ export class ActivateView extends View {
         img.css("width","20px")
         func_container.append(this.leftBarElement(img,"礼品卡兑换",()=>{return this.CodeActiveBox()},1))
         func_container.append(this.leftBarElement($(donate_img),"商城",()=>{return this.PurchaseBox()},2))
-        func_container.append(await this.leftBarElementAsync($("<span>C-></span>"),"兑换礼品卡",async ()=>{return await this.convertToGiftCodePage()},4))
+        func_container.append(await this.leftBarElementAsync($(`<div style="
+    height: 20px;
+    display: flex;
+    align-items: center;
+">C-&gt;</div>`),"点数转礼品卡",async ()=>{return await this.convertToGiftCodePage()},4))
         leftbar.append(func_container)
 
 
@@ -390,7 +394,7 @@ export class ActivateView extends View {
         
         let rest_count_textr = $(`<div class="${activate_style.convertBaseRestCount}">今日剩余兑换次数: 3</div>`)
         let right_container = $(`<div class="${activate_style.convertBaseRightElement}"></div>`)
-        let refresh_restc = $(`<div class="${ordiBtn}" >刷新数据...</div>`)
+        let refresh_restc = $(`<div class="${smallOrdiBtn}" >刷新数据...</div>`)
         right_container.append(refresh_restc)
         rest_c_col.append(rest_count_textr)
         rest_c_col.append(right_container)
@@ -411,17 +415,17 @@ export class ActivateView extends View {
         verification_col.append(right_container)
 
         let op_col = $(`<div class="${activate_style.convertBaseACol}"></div>`)
-        let cvt_btn = $(`<div class="${ordiBtn}" >点击立即兑换!</div>`)
+        let cvt_btn = $(`<div class="${smallOrdiBtn}" >点击立即兑换!</div>`)
         right_container = $(`<div class="${activate_style.convertBaseRightElement}"></div>`)
-        let refresh_history_btn = $(`<div class="${ordiBtn}" >刷新历史记录...</div>`)
-        let refresh_code_btn = $(`<div class="${ordiBtn}" style="margin-left: 2px;">刷新验证码...</div>`)
+        let refresh_history_btn = $(`<div class="${smallOrdiBtn}" >刷新历史记录...</div>`)
+        let refresh_code_btn = $(`<div class="${smallOrdiBtn}" style="margin-left: 2px;">刷新验证码...</div>`)
         right_container.append(refresh_history_btn)
         right_container.append(refresh_code_btn)
         op_col.append(cvt_btn)
         op_col.append(right_container)
 
         let operate_log_col = $(`<div class="${activate_style.convertBaseACol}" style="flex-direction:column;align-items: flex-start;"></div>`)
-        operate_log_col.append($(`<div style='font-weight:bolder;color: gray;font-size: 10px;margin: 5  px 0;'>本次操作日志</div>`))
+        operate_log_col.append($(`<div style='font-weight:bolder;color: gray;font-size: 10px;margin: 5px 0;'>本次操作日志</div>`))
         let log_box = $(`<div class="${activate_style.convertOperateLogBox}"></div>`)
         operate_log_col.append(log_box)
 
@@ -445,7 +449,7 @@ export class ActivateView extends View {
     }
 
     private getCvtHistoryInfo(data:Array<dict>) {
-        let base_table = $(`<table class="${activate_style.convertHistoryTable}"></table>`)
+        let base_table = $(`<table class="${activate_style.convertHistoryTable}" style="line-height: 14px;"></table>`)
         let thead=$(`<thead></thead>`),tr = $(`<tr></tr>`)
 
         tr.append($(`<th style="font-weight: bolder;font-size:11px;width: 20%">兑换时间</th>`))
