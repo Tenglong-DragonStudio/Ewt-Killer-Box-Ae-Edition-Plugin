@@ -7,7 +7,7 @@ import {resolve} from "@babel/core/lib/vendor/import-meta-resolve";
 const headerDev = {
   basic: {
     "@name": "EWT-KB",
-    "@version": "Y25A03-AeF",
+    "@version": "Y25A10-AeF",
   },
   extra: {
     "@description": "Developer software.Only test.",
@@ -23,7 +23,7 @@ const headerDev = {
 const headerBuild = {
   basic: {
     "@name": "EWT Killer Box(Ae Edition)",
-    "@version": "5.0.5-AeF",
+    "@version": "5.1-AeF",
   },
   extra: {
     "@description": "一个专门用于EWT的辅助插件.",
@@ -131,9 +131,11 @@ function devConfigs() {
               }
             })
           let gm_info = []
+          newItems.push(["@grant","unsafeWindow"])
           for(let i of newItems) {
             if(i[0] == "@grant")
               gm_info.push(["@grant",i[1].replace("_",".")]) //支持UserScript
+
           }
           for(let i of gm_info)
             newItems.push(i)

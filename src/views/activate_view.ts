@@ -7,7 +7,8 @@ import { closeWindow } from "@/utils/window";
 import {View} from "@/views/pub_view";
 import { dict } from "../type";
 import { ShopItem } from "@/pojo/shopitems";
-import { activateInfoBox, activateInfoKvV } from "@/css/index.css";
+import { activateInfoBox, activateInfoKvV, ordiBtn } from "@/css/index.css";
+import { getBtn } from "@/utils/jquery_component";
 
 interface SelectBoxElement {
     ():JQuery<HTMLElement>
@@ -30,7 +31,7 @@ export class ActivateView extends View {
         let right = $(`<div class="${activate_style.activatePage}">从左边选择一个页面以继续.</div>`)
         this.right = right
     }
-    surfaceComponent(): JQuery<HTMLElement> {
+    async surfaceComponent(): Promise<JQuery<HTMLElement>> {
         let root = $(`<div style="display:flex;"></div>`);
         
         let leftbar = $(`<div class="${activate_style.activateLeftBar}"></div>`)
@@ -45,7 +46,9 @@ export class ActivateView extends View {
         img.css("width","20px")
         func_container.append(this.leftBarElement(img,"礼品卡兑换",()=>{return this.CodeActiveBox()},1))
         func_container.append(this.leftBarElement($(donate_img),"商城",()=>{return this.PurchaseBox()},2))
+        func_container.append(await this.leftBarElementAsync($("<span>C-></span>"),"兑换礼品卡",async ()=>{return await this.convertToGiftCodePage()},4))
         leftbar.append(func_container)
+
 
         let r = $(`<div class="${activateInfoBox}" style="
     margin: 0 10px;
@@ -378,5 +381,96 @@ export class ActivateView extends View {
         return root
     }
 
+    private async convertToGiftCodePage() {
+        let {veri_id,veri_text} =await this.refreshVerficationInfo();
+        let root = $(`<div class="${activate_style.convertBase}"></div>`)
+        let title = $(`<div class="${activate_style.convertBaseTitle}">点数转礼品卡</div>`)
 
+        let rest_c_col = $(`<div class="${activate_style.convertBaseACol}"></div>`)
+        
+        let rest_count_textr = $(`<div class="${activate_style.convertBaseRestCount}">今日剩余兑换次数: 3</div>`)
+        let right_container = $(`<div class="${activate_style.convertBaseRightElement}"></div>`)
+        let refresh_restc = $(`<div class="${ordiBtn}" >刷新数据...</div>`)
+        right_container.append(refresh_restc)
+        rest_c_col.append(rest_count_textr)
+        rest_c_col.append(right_container)
+
+        let required_count_col = $(`<div class="${activate_style.convertBaseACol}"></div>`)
+        right_container = $(`<div class="${activate_style.convertBaseRightElement}"></div>`)
+        let required_count_data = $(`<input type="number" class="${activate_style.convertBaseNumberbox}"/>`)
+        right_container.append(required_count_data)
+        required_count_col.append($(`<div>所需兑换的点数</div>`))
+        required_count_col.append(right_container)
+
+        let verification_col= $(`<div class="${activate_style.convertBaseACol}"></div>`)
+        right_container = $(`<div class="${activate_style.convertBaseRightElement}"></div>`)
+        let veri_input = $(`<input type="number" class="${activate_style.convertBaseNumberbox}"/>`)
+        right_container.append($(`<span>${veri_text}</span>`))
+        right_container.append(veri_input)
+        verification_col.append($(`<div>在此输入验证码</div>`))
+        verification_col.append(right_container)
+
+        let op_col = $(`<div class="${activate_style.convertBaseACol}"></div>`)
+        let cvt_btn = $(`<div class="${ordiBtn}" >点击立即兑换!</div>`)
+        right_container = $(`<div class="${activate_style.convertBaseRightElement}"></div>`)
+        let refresh_history_btn = $(`<div class="${ordiBtn}" >刷新历史记录...</div>`)
+        let refresh_code_btn = $(`<div class="${ordiBtn}" style="margin-left: 2px;">刷新验证码...</div>`)
+        right_container.append(refresh_history_btn)
+        right_container.append(refresh_code_btn)
+        op_col.append(cvt_btn)
+        op_col.append(right_container)
+
+        let operate_log_col = $(`<div class="${activate_style.convertBaseACol}" style="flex-direction:column;align-items: flex-start;"></div>`)
+        operate_log_col.append($(`<div style='font-weight:bolder;color: gray;font-size: 10px;margin: 5  px 0;'>本次操作日志</div>`))
+        let log_box = $(`<div class="${activate_style.convertOperateLogBox}"></div>`)
+        operate_log_col.append(log_box)
+
+        let history_col = $(`<div class="${activate_style.convertBaseACol}" style="flex-direction:column;align-items: flex-start;"></div>`)
+        let table = this.getCvtHistoryInfo([{
+            time: "1145-14-19",
+            count: 5,
+            code: "TEST"
+        }])
+        history_col.append($(`<div style='font-weight:bolder;color: gray;font-size: 10px;margin: 2px 0;'>历史记录</div>`))
+        history_col.append(table)
+
+        root.append(title)
+        root.append(rest_c_col)
+        root.append(required_count_col)
+        root.append(verification_col)
+        root.append(op_col)
+        root.append(operate_log_col)
+        root.append(history_col)
+        return root
+    }
+
+    private getCvtHistoryInfo(data:Array<dict>) {
+        let base_table = $(`<table class="${activate_style.convertHistoryTable}"></table>`)
+        let thead=$(`<thead></thead>`),tr = $(`<tr></tr>`)
+
+        tr.append($(`<th style="font-weight: bolder;font-size:11px;width: 20%">兑换时间</th>`))
+        tr.append($(`<th style="font-weight: bolder;font-size:11px;width: 10%">点数</th>`))
+        tr.append($(`<th style="font-weight: bolder;font-size:11px;width: 70%">礼品卡代码</th>`))
+        thead.append(tr)
+        base_table.append(thead)
+
+        let body = $(`<tbody></tbody>`)
+        for(let i of data) {
+            let tr = $(`<tr></tr>`)
+            tr.append($(`<td style="line-height: 13px;text-align:center;font-size:10px;width: 20%">${i.time}</td>`))
+            tr.append($(`<td style="line-height: 13px;text-align:center;font-size:10px;width: 20%">${i.count}</td>`))
+            tr.append($(`<td style="line-height: 13px;text-align:center;font-size:10px;width: 60%">${i.code}</td>`))
+            body.append(tr)
+        }
+        base_table.append(body)
+        return base_table
+
+    }
+
+    private async refreshVerficationInfo() {
+        return {
+            veri_id: 1,
+            veri_text: `1 + 1 =&nbsp;`
+        }
+    }
 }

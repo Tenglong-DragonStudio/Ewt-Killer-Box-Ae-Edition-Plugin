@@ -7,7 +7,7 @@ import {IHomeworkService} from "@/services/IHomeworkService";
 export class HomeworkDao {
     HOMEWORK_PAPER_ANSWER_URL = `${Config.mip}/specialapi/paper`
     FILL_OPTION_URL = `${Config.mip}/api/homework/fillOptions`
-    CHECK_STATE_URL = `${Config.mip}/specialapi/task/status?tid={tid}`
+    CHECK_STATE_URL = `${Config.mip}/task/status?tid={tid}`
     LESSON_HOMEWORK_URL = "https://gateway.ewt360.com/api/homeworkprod/player/getPlayerLessonConfig";
     INFO_URL = "https://web.ewt360.com/api/answerprod/web/answer/report?&platform=1&isRepeat=1&paperId={paperId}&bizCode={bizCode}"
     AVL_URL = `${Config.mip}/specialapi/paper/available?paperId={paperId}`

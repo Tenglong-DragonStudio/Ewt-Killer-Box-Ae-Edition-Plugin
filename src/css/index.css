@@ -654,10 +654,10 @@ p {
 .ordi-btn {
 
     background-color: rgb(0,0,0,0);
-    padding: 3px 15px;
+    padding: 1px 7px;
     outline-style: none;
     box-shadow: 0 0 5px gray;
-    font-size: 12px;
+    font-size: 10px;
     border-radius: 5px;
 
     transition: background-color 200ms;

@@ -82,3 +82,64 @@
 .activate-enabled-selection {
     background-color:#adadad;
 }
+
+.convert-base {
+    width: 100%;
+    padding: 5px;
+}
+
+.convert-base-title {
+    font-size: 25px;
+    font-weight: bolder;
+}
+
+.convert-base-a-col {
+    display: flex;
+    align-items: center;
+    margin: 3px 0;
+}
+
+.convert-base-rest-count {
+    font-weight: bold;
+    color: green;
+}
+
+.convert-base-right-element {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.convert-base-numberbox {
+    outline: none;
+    border: 0;
+    background-color: #ffffff63;
+    width: 35px;
+    height: 15px;
+    font-size: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px gray;
+    padding-left: 5px;
+    margin-left: auto;
+    margin-right: 2px;
+}
+
+.convert-history-table {
+    width: 100%;
+    font-size: 9px;
+    color: black;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px dashed slategray;
+}
+
+.convert-operate-log-box {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    font-size: 10px;
+    box-shadow: 0 0 3px gray;
+    overflow-y: auto;
+    height: 80px;
+}

@@ -138,20 +138,39 @@ let orderHistoryBtn = getMenuBtn("yellow", $(order_svg).css({ height: "20px", wi
     renderWindow(undefined, await new PurchaseHistoryView().surfaceComponent(), true);
 });
 
+function xhrInit() {
+    // let origXHR = unsafeWindow.XMLHttpRequest;
+    // let xhr = new origXHR();
+    // let open = xhr.open
+    // unsafeWindow.XMLHttpRequest.prototype.open = function (method: string, url: string | URL, ...args:any) {
+    //     console.log(url.toString())
+    //     console.log(url.toString().indexOf("template/data"))
+    //     if(url.toString().indexOf("ewt-web-log/track") != -1 
+    // || url.toString().indexOf("template/data") != -1 ) {
+    //         throw new Error("[Ewt-Killer-Box] 检测到 Ewt360 尝试上传用户数据,已经将其拦截.")
+    // } else {
+    //         return open(method,url,args)
+    //     }
+
+    // }
+    // unsafeWindow.XMLHttpRequest.prototype.open = ()=>{}
+}
+
 export let log: LogSystem;
 $(async () => {
+    xhrInit();
     log = await new LogSystem().build()
     user = await getUser()
     await openUpdateAndVersionBox();
 
     open.addClass("default-open-btn");
 
-    let ikbtn = getMenuBtn("purple", $(input_key_img), "激活", ()=> {
+    let ikbtn = getMenuBtn("purple", $(input_key_img), "激活", async ()=> {
         if (!user?.id) {
             document.location.href = "https://web.ewt360.com/register/#/login";
         } else {
             renderBackground();
-            renderWindow(undefined, new ActivateView().surfaceComponent(), true, undefined, "padding: 0");
+            renderWindow(undefined, await new ActivateView().surfaceComponent(), true, undefined, "padding: 0");
         }
     });
     
