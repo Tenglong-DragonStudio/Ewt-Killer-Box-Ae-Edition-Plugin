@@ -11,7 +11,7 @@ const path = require('path')
 const { defineConfig } = require('rollup')
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx']
-const projectRootDir = path.resolve(__dirname).split("\\")[0]
+const projectRootDir = path.resolve(__dirname).split("/")[0]
 console.log(projectRootDir)
 module.exports = defineConfig({
   plugins: [

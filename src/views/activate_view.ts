@@ -1,14 +1,13 @@
-import { activateLeftBarContainerElement } from "@/css/activate.css";
-import { UserInfoInterface } from "@/dao/UserInfoDao";
-import { addCloseWindowTimeout, updateUserInfo, user } from "@/main";
-import { check_ok_img, donate_img, fail_img, gift_card_img, wechat_pay_img, zfb_img } from "@/utils/resources";
-import { activate_style, mstyle, shop_style } from "@/utils/style_manager";
-import { closeWindow } from "@/utils/window";
+import {activateLeftBarContainerElement} from "@/css/activate.css";
+import {UserInfoInterface} from "@/dao/UserInfoDao";
+import {addCloseWindowTimeout, updateUserInfo} from "@/main";
+import {check_ok_img, donate_img, fail_img, gift_card_img, wechat_pay_img, zfb_img} from "@/utils/resources";
+import {activate_style, mstyle, shop_style} from "@/utils/style_manager";
+import {closeWindow} from "@/utils/window";
 import {View} from "@/views/pub_view";
-import { dict } from "../type";
-import { ShopItem } from "@/pojo/shopitems";
-import { activateInfoBox, activateInfoKvV, ordiBtn, smallOrdiBtn } from "@/css/index.css";
-import { getBtn } from "@/utils/jquery_component";
+import {dict} from "@/type";
+import {ShopItem} from "@/pojo/shopitems";
+import {activateInfoBox, activateInfoKvV, smallOrdiBtn} from "@/css/index.css";
 
 interface SelectBoxElement {
     ():JQuery<HTMLElement>
@@ -28,8 +27,7 @@ export class ActivateView extends View {
         this.userInfo = new UserInfoInterface();
         this.selected_element = $()
         this.selected_page = 0;
-        let right = $(`<div class="${activate_style.activatePage}">从左边选择一个页面以继续.</div>`)
-        this.right = right
+        this.right = $(`<div class="${activate_style.activatePage}">从左边选择一个页面以继续.</div>`)
     }
     async surfaceComponent(): Promise<JQuery<HTMLElement>> {
         let root = $(`<div style="display:flex;"></div>`);
@@ -46,14 +44,13 @@ export class ActivateView extends View {
         img.css("width","20px")
         func_container.append(this.leftBarElement(img,"礼品卡兑换",()=>{return this.CodeActiveBox()},1))
         func_container.append(this.leftBarElement($(donate_img),"商城",()=>{return this.PurchaseBox()},2))
-        func_container.append(await this.leftBarElementAsync($(`<div style="
-    height: 20px;
-    display: flex;
-    align-items: center;
-">C-&gt;</div>`),"点数转礼品卡",async ()=>{return await this.convertToGiftCodePage()},4))
+//      func_container.append(await this.leftBarElementAsync($(`<div style="
+//     height: 20px;
+//     display: flex;
+//     align-items: center;
+// ">C-&gt;</div>`),"点数转礼品卡",async ()=>{return await this.convertToGiftCodePage()},4))
+
         leftbar.append(func_container)
-
-
         let r = $(`<div class="${activateInfoBox}" style="
     margin: 0 10px;
     margin-top: auto;
@@ -128,7 +125,7 @@ export class ActivateView extends View {
             input.attr("contenteditable", "false")
             status_text.css("color","green")
             status_text.text("请等待...")
-            const matchreg = /^([a-zA-Z0-9]{5}\-){4}([a-zA-Z0-9]{5})$/
+            const matchreg = /^([a-zA-Z0-9]{5}-){4}([a-zA-Z0-9]{5})$/
             if(val == undefined || val.toString() == "") {
                 status_text.css("color","red")
                 status_text.text("E:请输入礼品卡代码.")
@@ -159,9 +156,9 @@ export class ActivateView extends View {
     <div>5 秒后将关闭此窗口.</div>
                     `))
                 await updateUserInfo();
-                let tid = addCloseWindowTimeout(()=>{
+                addCloseWindowTimeout(()=>{
                     closeWindow();
-                },5000)
+                },5000);
             }
         })
 
@@ -180,7 +177,7 @@ export class ActivateView extends View {
         
 
         root.append(container)
-        
+
         setTimeout(async ()=>{
             let all_goods:dict = await this.userInfo.GetAllGoods();
             let item:ShopItem[] = []

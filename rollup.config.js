@@ -7,13 +7,13 @@ import {resolve} from "@babel/core/lib/vendor/import-meta-resolve";
 const headerDev = {
   basic: {
     "@name": "EWT-KB",
-    "@version": "Y25A10-AeF",
+    "@version": "Y25A12-AeF",
   },
   extra: {
     "@description": "Developer software.Only test.",
     "@updateURL": "https://resource.olcoursekb.top/Scripts/DEBUG/latest.js",
     "@downloadURL": "https://resource.olcoursekb.top/Scripts/DEBUG/latest.js",
-    "@connect": ["api.olcoursekb.top",
+    "@connect": ["127.0.0.1",
       "web.ewt360.com",
       "gateway.ewt360.com",
       "clog.ewt360.com"]
@@ -23,7 +23,7 @@ const headerDev = {
 const headerBuild = {
   basic: {
     "@name": "EWT Killer Box(Ae Edition)",
-    "@version": "5.1-AeF",
+    "@version": "5.0.8-AeF",
   },
   extra: {
     "@description": "一个专门用于EWT的辅助插件.",

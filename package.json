@@ -2,8 +2,8 @@
   "name": "ewt",
   "version": "0.0.0",
   "scripts": {
-    "dev": "rollup --config --environment BUILD:development --watch",
-    "build": "tsc && rollup --config",
+    "dev": "NODE_ENV=dev rollup --config --environment BUILD:development --watch",
+    "build": "NODE_ENV=prod tsc && rollup --config",
     "fix": "rollup --config --environment BUILD:fix"
   },
   "devDependencies": {

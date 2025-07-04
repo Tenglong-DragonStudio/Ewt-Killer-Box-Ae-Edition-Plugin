@@ -139,21 +139,27 @@ let orderHistoryBtn = getMenuBtn("yellow", $(order_svg).css({ height: "20px", wi
 });
 
 function xhrInit() {
-    // let origXHR = unsafeWindow.XMLHttpRequest;
-    // let xhr = new origXHR();
-    // let open = xhr.open
-    // unsafeWindow.XMLHttpRequest.prototype.open = function (method: string, url: string | URL, ...args:any) {
-    //     console.log(url.toString())
-    //     console.log(url.toString().indexOf("template/data"))
-    //     if(url.toString().indexOf("ewt-web-log/track") != -1 
-    // || url.toString().indexOf("template/data") != -1 ) {
-    //         throw new Error("[Ewt-Killer-Box] 检测到 Ewt360 尝试上传用户数据,已经将其拦截.")
-    // } else {
-    //         return open(method,url,args)
-    //     }
+    let openF = unsafeWindow.XMLHttpRequest.prototype.open
+    unsafeWindow.XMLHttpRequest.prototype.open = function (method: string, url: string | URL, ...args:any)  {
+        if(url.toString().indexOf("&key=eo^nye1j#!wt2%v)") != -1
+            || url.toString().indexOf("aliyun") != -1
+        || url.toString().indexOf("track")!=-1) {
+            unsafeWindow.console.error("[Ewt-Killer-Box] 万恶的ewt正在用 XMLHttpRequest() 收集用户数据，滚开给老子爬")
+        } else {
+            return openF.call(this,method,url,args)
+        }
+    }
 
-    // }
-    // unsafeWindow.XMLHttpRequest.prototype.open = ()=>{}
+   let beacon =  unsafeWindow.navigator.sendBeacon
+    unsafeWindow.navigator.sendBeacon = function (url,data) {
+        if(url.toString().indexOf("aliyun") != -1 || url.toString().indexOf("web-log/logstores") != -1) {
+            unsafeWindow.console.error("[Ewt-Killer-Box] 万恶的ewt正在用 navigator.sendBeacon() 收集用户数据，滚开给老子爬")
+            throw new Error("")
+        } else {
+            return beacon.call(this,url,data)
+        }
+
+    }
 }
 
 export let log: LogSystem;

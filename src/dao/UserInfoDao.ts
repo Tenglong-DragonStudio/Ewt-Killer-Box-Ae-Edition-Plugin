@@ -1,5 +1,5 @@
-import {request, requestJson, validateReturn} from "../utils/request";
-import {headers} from "../utils/constants"
+import {request, requestJson, validateReturn} from "@/utils/request";
+import {headers} from "@/utils/constants"
 import {dict} from "@/type";
 import config from "@/config";
 
@@ -10,13 +10,14 @@ export class UserInfoInterface {
     private TRIAL_URL = `${config.payip}/trial`
     private ACTIVE_CODE_URL = `${config.payip}/code/activate`
     private PURCHASE_URL = `${config.payip}/pay/buy`
-    private ASK_OK_BUY_URL = `${config.payip}/pay/wait_for_pay_status?payId={p}`
+    private ASK_OK_BUY_URL = `${config.payip}/status/wait_for_pay_status?payId={p}`
     private CANCEL_ORDER_URL = `${config.payip}/pay/cancel_order`
     private ALL_GOODS_URL = `${config.payip}/shop/allGoods`
     private GET_ALL_ORDERS_URL = `${config.payip}/pay/get_all_orders`
 
     async getApiUserInfo() {
         let res:any= await request("POST",this.API_USER_URL,headers["CommonHeader"],null);
+
         return <dict>validateReturn(res["responseText"])
     }
 

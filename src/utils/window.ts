@@ -190,7 +190,7 @@ export function isInCoursePage() {
 export function isInTaskPage() {
     let kv = getUrlInfo(window.location.href)
     let b = ("homeworkId" in kv) && kv.homeworkId!=undefined
-    return window.location.href.indexOf('student/homework-detail')!=-1 && b
+    return window.location.href.indexOf('student-task-overview')!=-1 && b
 }
 
 
