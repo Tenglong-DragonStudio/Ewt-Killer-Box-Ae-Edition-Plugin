@@ -3,5 +3,16 @@
   "@run-at": "document-end",
   "@require": "https://code.jquery.com/jquery-3.6.0.min.js",
   "@author": "Sudo-su-Bash",
-  "@connect": "*"
+  "@description": "Developer software.Only test.",
+  "@updateURL": "https://resource.olcoursekb.top/Scripts/DEBUG/latest.js",
+  "@downloadURL": "https://resource.olcoursekb.top/Scripts/DEBUG/latest.js",
+  "@connect": ["127.0.0.1",
+    "web.ewt360.com",
+    "gateway.ewt360.com",
+    "clog.ewt360.com",
+    "api.olcoursekb.top"],
+  "@grant": ["unsafeWindow",
+    "GM_registerMenuCommand",
+    "GM_unregisterMenuCommand"]
+
 }

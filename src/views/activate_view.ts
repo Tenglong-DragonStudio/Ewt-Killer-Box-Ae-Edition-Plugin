@@ -221,18 +221,31 @@ export class ActivateView extends View {
 
 
         zfbbtn.on('click',async ()=>{
+            this.setStatus(true)
+            zfbbtn.text("请等待...")
+            zfbbtn.css("color","gray")
             let res = await pay(2,this.userInfo);
             if(res!=-1) {
-                this.setStatus(true)
+
                 root.empty();
                 root.append(this.payPage(res["qrcode"],res["payId"],"支付宝",res["price"]));
-            }})
+            } else {
+                zfbbtn.html(`<div class="${mstyle.ordiBtn} ${shop_style.shopPaywayImg}">${zfb_img} 支付宝</div>`)
+                this.setStatus(false)
+            }
+        })
         wxbtn.on('click',async ()=>{
+            wxbtn.text("请等待...")
+            wxbtn.css("color","gray")
+            this.setStatus(true)
             let res = await pay(1,this.userInfo);
             if(res!=-1) {
-                this.setStatus(true)
+
                 root.empty();
                 root.append(this.payPage(res["qrcode"],res["payId"],"微信",res["price"]));
+            } else {
+                wxbtn.html(`<div class="${mstyle.ordiBtn} ${shop_style.shopPaywayImg}" >${wechat_pay_img} 微信</div>`)
+                this.setStatus(false)
             }
         })
         

@@ -11,7 +11,7 @@ let config = {
         "scrollbar_60p_to_80p": 100,
         "scrollbar_80p_to_100p": 50
     },
-    "last-build-time":"2025.07.03",
+    "last-build-time":"2025.07.08",
     // "mip": "http://127.0.0.1:8000",
     // "payip": "http://127.0.0.1:8001",
     "mip": "https://api.olcoursekb.top/ekb",

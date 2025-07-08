@@ -7,32 +7,14 @@ import {resolve} from "@babel/core/lib/vendor/import-meta-resolve";
 const headerDev = {
   basic: {
     "@name": "EWT-KB",
-    "@version": "Y25A12-AeF",
-  },
-  extra: {
-    "@description": "Developer software.Only test.",
-    "@updateURL": "https://resource.olcoursekb.top/Scripts/DEBUG/latest.js",
-    "@downloadURL": "https://resource.olcoursekb.top/Scripts/DEBUG/latest.js",
-    "@connect": ["127.0.0.1",
-      "web.ewt360.com",
-      "gateway.ewt360.com",
-      "clog.ewt360.com"]
+    "@version": "Y25A14-AeF",
   }
 }
 
 const headerBuild = {
   basic: {
     "@name": "EWT Killer Box(Ae Edition)",
-    "@version": "5.0.8-AeF",
-  },
-  extra: {
-    "@description": "一个专门用于EWT的辅助插件.",
-    "@updateURL": "https://resource.olcoursekb.top/Scripts/RELEASE/latest.js",
-    "@downloadURL": "https://resource.olcoursekb.top/Scripts/RELEASE/latest.js",
-    "@connect": ["api.olcoursekb.top",
-      "web.ewt360.com",
-      "gateway.ewt360.com",
-      "clog.ewt360.com"]
+    "@version": "5.0.9-AeF",
   }
 }
 
@@ -133,19 +115,11 @@ function devConfigs() {
           let gm_info = []
           newItems.push(["@grant","unsafeWindow"])
           for(let i of newItems) {
-            if(i[0] == "@grant")
+            if(i[0] === "@grant" && i[i].indexOf("GM")!==-1)
               gm_info.push(["@grant",i[1].replace("_",".")]) //支持UserScript
-
           }
           for(let i of gm_info)
             newItems.push(i)
-          for(let i in headerDev.extra) {
-              if(headerDev.extra[i] instanceof Array) {
-                for(let c of headerDev.extra[i]) newItems.push([i,c])
-              } else {
-                newItems.push([i,headerDev.extra[i]])
-              }
-          }
           userScriptHeaderContent = [...newItems]
 
           return newItems
@@ -238,18 +212,11 @@ function prodConfigs() {
             })
           let gm_info = []
           for(let i of newItems) {
-            if(i[0] == "@grant")
+            if(i[0] === "@grant" && i[1].indexOf('GM') !== -1)
               gm_info.push(["@grant",i[1].replace("_",".")]) //支持UserScript
           }
           for(let i of gm_info)
             newItems.push(i)
-          for(let i in headerBuild.extra) {
-            if(headerBuild.extra[i] instanceof Array) {
-              for(let c of headerBuild.extra[i]) newItems.push([i,c])
-            } else {
-              newItems.push([i,headerBuild.extra[i]])
-            }
-          }
           return newItems
         },
         outputFile
