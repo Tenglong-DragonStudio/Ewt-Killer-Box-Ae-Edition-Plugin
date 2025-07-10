@@ -4,7 +4,7 @@ import $ from "jquery"
 import {clearAllCloseWindowTimeout, version} from "../main";
 import {getBlueFBtn} from './jquery_component';
 import {mstyle, wait_style} from "./style_manager";
-import config from "../config";
+import app_config from "../app_config";
 import {getUrlInfo} from "./request";
 import {User} from "@/pojo/user";
 import {getDateTimeFromStamp} from "@/utils/stringutil";
@@ -47,7 +47,7 @@ export function renderBackground() {
     bg.append(loading)
 
     rootE.prepend(bg)
-    loading.animate({opacity:1,marginBottom: "-=100px"},config.animate.window_surface);
+    loading.animate({opacity:1,marginBottom: "-=100px"},app_config.animate.window_surface);
     loading_c.click()
     return loading;
 }
@@ -58,7 +58,7 @@ export function closeWindow() {
     clearAllCloseWindowTimeout();
     let bg = $("#"+mstyle.windowBg);
     let wm = $("#"+mstyle.windowMain);
-    wm.animate({opacity:0,marginBottom: "+=100px"},config.animate.window_surface);
+    wm.animate({opacity:0,marginBottom: "+=100px"},app_config.animate.window_surface);
     setTimeout(()=>{
         wm.css("display","none");
         bg.remove();
@@ -167,7 +167,7 @@ export function renderWindow(
 
     $("#"+mstyle.windowBg).empty();
     bg.prepend(windowMain);
-    windowMain.animate({opacity:1,marginBottom: "-=100px"},config.animate.window_surface);
+    windowMain.animate({opacity:1,marginBottom: "-=100px"},app_config.animate.window_surface);
     return windowMain
 }
 

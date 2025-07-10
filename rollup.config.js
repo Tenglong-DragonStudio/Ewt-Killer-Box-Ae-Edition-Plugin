@@ -14,7 +14,7 @@ const headerDev = {
 const headerBuild = {
   basic: {
     "@name": "EWT Killer Box(Ae Edition)",
-    "@version": "5.0.9-AeF",
+    "@version": "5.0.10-AeF",
   }
 }
 

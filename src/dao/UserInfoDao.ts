@@ -1,19 +1,19 @@
 import {request, requestJson, validateReturn} from "@/utils/request";
 import {headers} from "@/utils/constants"
 import {dict} from "@/type";
-import config from "@/config";
+import app_config from "@/app_config";
 
 export class UserInfoInterface {
     private GET_USER_URL = "https://web.ewt360.com/api/usercenter/user/baseinfo";
-    private API_USER_URL = `${config.mip}/auth/getUser`;
+    private API_USER_URL = `${app_config.mip}/auth/getUser`;
     private SCHOOL_URL = "https://gateway.ewt360.com/api/eteacherproduct/school/getSchoolUserInfo";
-    private TRIAL_URL = `${config.payip}/trial`
-    private ACTIVE_CODE_URL = `${config.payip}/code/activate`
-    private PURCHASE_URL = `${config.payip}/pay/buy`
-    private ASK_OK_BUY_URL = `${config.payip}/status/wait_for_pay_status?payId={p}`
-    private CANCEL_ORDER_URL = `${config.payip}/pay/cancel_order`
-    private ALL_GOODS_URL = `${config.payip}/shop/allGoods`
-    private GET_ALL_ORDERS_URL = `${config.payip}/pay/get_all_orders`
+    private TRIAL_URL = `${app_config.payip}/trial`
+    private ACTIVE_CODE_URL = `${app_config.payip}/code/activate`
+    private PURCHASE_URL = `${app_config.payip}/pay/buy`
+    private ASK_OK_BUY_URL = `${app_config.payip}/status/wait_for_pay_status?payId={p}`
+    private CANCEL_ORDER_URL = `${app_config.payip}/pay/cancel_order`
+    private ALL_GOODS_URL = `${app_config.payip}/shop/allGoods`
+    private GET_ALL_ORDERS_URL = `${app_config.payip}/pay/get_all_orders`
 
     async getApiUserInfo() {
         let res:any= await request("POST",this.API_USER_URL,headers["CommonHeader"],null);

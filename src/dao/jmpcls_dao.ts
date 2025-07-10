@@ -1,7 +1,7 @@
 import {request, requestJson, validateLanReturn, validateReturn} from "../utils/request";
 import {headers } from "../utils/constants";
 import {TaskCourse} from "../pojo/course";
-import Config from "../config";
+import Config from "../app_config";
 import {user} from "../main";
 import { dict } from "@/type";
 

@@ -7,7 +7,7 @@ import {IQuestion, Option, OptionQuestion} from "../pojo/option";
 import {exam_img, unlock_svg} from "../utils/resources";
 import {IPaper, Paper} from "../pojo/fih_objects";
 import {QuestionComponentDesc } from "../pojo/QuestionCompont";
-import config from "../config";
+import app_config from "../app_config";
 import {CourseHomeworkController, IHomeworkController} from "@/controller/CourseHomeworkController";
 import {delay} from "@/utils/stringutil";
 import { ordiBtn } from "@/css/index.css";
@@ -256,7 +256,7 @@ export class HomeworkView extends View {
             let analcontent = $(`<div class='${homework_style.analyzeContainer}'>${question.analyse}</div>`)
             
             this.quesMainComponent.on("click",`.${homework_style.analyzeBack}`,()=>{
-                analcontent.slideToggle(config.animate.analyze_slide_toggle,()=>{
+                analcontent.slideToggle(app_config.animate.analyze_slide_toggle,()=>{
                     if(analcontent.css("display") == "none") {
                         analyzeC.html("<label>展开</label>")
                     } else  {

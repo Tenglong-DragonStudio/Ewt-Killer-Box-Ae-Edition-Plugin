@@ -16,12 +16,11 @@ export class ConfigFactory {
     }
 
     public async loadConfig() {
-        let conf = JSON.parse(await SGM_getValue("kewt.config"))
-        if(conf == undefined)
-            conf = <dict>{}
-        else
-            conf = <dict>conf
-        this.configManager.loadConfig(conf)
+        let conf = await SGM_getValue("kewt.config")
+        let res = {}
+        if(conf != undefined)
+            res = <dict>(JSON.parse(<string>conf))
+        this.configManager.loadConfig(res)
         await this.saveConfig()
     }
 

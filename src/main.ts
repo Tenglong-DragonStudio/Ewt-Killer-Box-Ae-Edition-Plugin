@@ -31,12 +31,13 @@ import { PurchaseHistoryView } from "./views/purchase_history_view";
 import { SceneTaskView } from "./views/SceneTaskView";
 import {dict} from "@/type";
 import {ConfigFactory} from "@/configs/ConfigFactory";
+import app_config from "@/app_config";
 
 export let { version } = SGM_info.script;
 
 export let user: User;
 
-let info:dict = {}
+let info:dict = app_config
 let config = new ConfigFactory()
 let closeWindowTimeout: NodeJS.Timeout[] = [];
 
@@ -106,6 +107,7 @@ export function clearAllCloseWindowTimeout() {
 
 async function openUpdateAndVersionBox() {
     let { vcode, update_log, version, location } = await getLatestVersion();
+    console.log(info.version)
     if (info.version < vcode) {
         renderBackground();
         renderWindow(undefined, await new CheckUpdateView(update_log, location, version).surfaceComponent(), true);

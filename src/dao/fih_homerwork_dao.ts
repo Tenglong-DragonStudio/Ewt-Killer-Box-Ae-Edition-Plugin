@@ -1,7 +1,7 @@
 import { headers } from "@/utils/constants";
 import {request, requestJson, validateAPIReturn, validateLanReturn, validateReturn} from "@/utils/request";
 import {getUserToken} from "@/utils/token";
-import Config from "@/config";
+import Config from "@/app_config";
 import {IHomeworkService} from "@/services/IHomeworkService";
 
 export class HomeworkDao {
