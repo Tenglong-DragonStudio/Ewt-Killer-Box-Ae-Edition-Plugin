@@ -7,14 +7,14 @@ import {resolve} from "@babel/core/lib/vendor/import-meta-resolve";
 const headerDev = {
   basic: {
     "@name": "EWT-KB",
-    "@version": "Y25A14-AeF",
+    "@version": "Y25A15-AeF",
   }
 }
 
 const headerBuild = {
   basic: {
     "@name": "EWT Killer Box(Ae Edition)",
-    "@version": "5.0.10-AeF",
+    "@version": "5.0.11-AeF",
   }
 }
 

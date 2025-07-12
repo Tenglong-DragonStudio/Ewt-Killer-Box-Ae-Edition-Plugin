@@ -11,6 +11,7 @@ import app_config from "../app_config";
 import {CourseHomeworkController, IHomeworkController} from "@/controller/CourseHomeworkController";
 import {delay} from "@/utils/stringutil";
 import { ordiBtn } from "@/css/index.css";
+import {dict} from "@/type";
 
 export class HomeworkView extends View {
     private homeworkController : CourseHomeworkController;
@@ -105,20 +106,31 @@ export class HomeworkView extends View {
                 fill_choice_btn.removeClass(`${homework_style.homeworkSubmitBtn}`)
                 fill_choice_btn.addClass(`${homework_style.submitUnclickable}`)
                 fill_choice_btn.html("<label>请等待填充...</label>")
-                await this.homeworkController.FillOptionsAll()
+                let res = await this.homeworkController.FillOptionsAll()
+                if(res["code"] != 200) {
+                    fill_choice_btn.removeClass(`${homework_style.submitUnclickable}`)
+                    fill_choice_btn.addClass(`${homework_style.homeworkSubmitBtn}`)
+                    fill_choice_btn.text(`错误:`+res["message"]+`,重新点击以继续`)
+                    return
+                }
 
                 let finish = false
                 while (true) {
-                    let dat = await this.homeworkController.GetTask()
-                    if((<any>dat)["all"] == (<any>dat)["do"]) {
+                    let dat:dict = await this.homeworkController.GetTask()
+                    dat=dat["data"]
+                    if(dat == undefined) {
+                        fill_choice_btn.text(`错误:无效的任务.`)
+                        break
+                    } else if(dat["errcode"] != 0) {
+                        fill_choice_btn.text(`错误:代码为${dat["errcode"]}/点击重试`)
+                        break
+                    } else if(dat["all"] == dat["do"]) {
                         fill_choice_btn.text(`填写完成!`)
                         finish=true
                         break
-                    } else if((<any>dat)["state"] >= 0){
-                        fill_choice_btn.text(`进度${parseInt(String((<any>dat)["progress"] * 1000)) / 10}%`)
-                    } else {
-                        fill_choice_btn.text(`填写失败.(${(<any>dat)["code"]})`)
-                        break
+                    } else if(dat["all"] > dat["do"]){
+                        dat["progress"] = parseInt(String(dat["do"] / dat["all"] * 1000)) / 10
+                        fill_choice_btn.text(`进度:${dat["progress"] * 1000}%`)
                     }
                     await delay(100)
                 }
@@ -133,6 +145,9 @@ export class HomeworkView extends View {
                         this.progress_s.slideValue(this.ques / this.allQues)
                     }
                     fill_choice_btn.html("<label>填写成功!刷新界面以继续...</label>")
+                } else {
+                    fill_choice_btn.addClass(`${homework_style.homeworkSubmitBtn}`)
+                    fill_choice_btn.removeClass(`${homework_style.submitUnclickable}`)
                 }
             }
         })

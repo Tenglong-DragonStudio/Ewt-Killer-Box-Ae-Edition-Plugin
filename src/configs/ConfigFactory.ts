@@ -1,6 +1,7 @@
 import {ConfigManager, ValueSelectionObject} from "@/configs/ConfigManager";
 import {SGM_getValue, SGM_registerMenuCommand, SGM_setValue, SGM_unregisterMenuCommand} from "@/utils/function";
 import {dict} from "@/type";
+import {log} from "@/main";
 
 export class ConfigFactory {
     private readonly configManager: ConfigManager
@@ -37,6 +38,10 @@ export class ConfigFactory {
     }
 
     public async setBooleanToSlideBar(key: string, func?: SlideBarFunc) {
+        if(typeof SGM_unregisterMenuCommand == "undefined") {
+            log.info("检测到是safari浏览器,不支持GM_registerMenuCommand函数,此选项被略过.")
+            return
+        }
         let target = this.configManager.getValue<boolean>(key)
         if(target == undefined) return
 

@@ -28,6 +28,7 @@ export class PurchaseHistoryView extends View {
 
     async surfaceComponent(): Promise<JQuery<HTMLElement>> {
         let val = await this.getOrderItem();
+        console.log(val)
         let root =$(`<div class="${purchaseHistory.purchaseHistoryMain}"></div>`)
         root.append(history_purchase_svg)
         root.append($(`<div class="${purchaseHistory.purchaseHistoryText}">历史购买记录</div>`))

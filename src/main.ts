@@ -127,19 +127,19 @@ async function openUpdateAndVersionBox() {
 let open = getMenuBtn("red", $(open_img), "打开工具箱", async () => { await openBox(); });
 
 let logbtn = getMenuBtn("green", $(log_img), "程序日志记录", async () => {
-    if (user?.id) {
-        renderBackground();
-        renderWindow(undefined, (<JQuery<HTMLElement>>((new LogView()).surfaceComponent())), true);
-        const c = document.querySelector(`.${log_style.logTableContainer}`) as Element;
-        if (c) c.scrollTop = c.scrollHeight;
-    } else {
-        document.location.href = "https://web.ewt360.com/register/#/login";
-    }
+    renderBackground();
+    renderWindow(undefined, (<JQuery<HTMLElement>>((new LogView()).surfaceComponent())), true);
+    const c = document.querySelector(`.${log_style.logTableContainer}`) as Element;
+    if (c) c.scrollTop = c.scrollHeight;
 });
 
 let orderHistoryBtn = getMenuBtn("yellow", $(order_svg).css({ height: "20px", width: "20px" }), "付款历史记录", async () => {
-    renderBackground();
-    renderWindow(undefined, await new PurchaseHistoryView().surfaceComponent(), true);
+    if (user?.id) {
+        renderBackground();
+        renderWindow(undefined, await new PurchaseHistoryView().surfaceComponent(), true);
+    } else {
+        document.location.href = "https://web.ewt360.com/register/#/login";
+    }
 });
 
 function xhrInit() {
@@ -169,11 +169,12 @@ function xhrInit() {
 
 export let log: LogSystem;
 $(async () => {
+    log = await new LogSystem().build()
     await config.loadConfig()
     await config.setBooleanToSlideBar("kewt.config.ic_collect_data")
 
     xhrInit();
-    log = await new LogSystem().build()
+
     user = await getUser()
 
 
