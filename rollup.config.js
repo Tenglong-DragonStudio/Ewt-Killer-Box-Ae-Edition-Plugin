@@ -115,7 +115,7 @@ function devConfigs() {
           let gm_info = []
           newItems.push(["@grant","unsafeWindow"])
           for(let i of newItems) {
-            if(i[0] === "@grant" && i[i].indexOf("GM")!==-1)
+            if(i[0] === "@grant" && i[1].indexOf("GM")!==-1)
               gm_info.push(["@grant",i[1].replace("_",".")]) //支持UserScript
           }
           for(let i of gm_info)
