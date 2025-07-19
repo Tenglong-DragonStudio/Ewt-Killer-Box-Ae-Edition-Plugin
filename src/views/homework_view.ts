@@ -1,6 +1,5 @@
 import {View} from "./pub_view";
 import {ExamPaperHomeworkService} from "../services/ExamPaperHomeworkService";
-import {IHomeworkService} from "../services/IHomeworkService";
 import {circle_styles, homework_style, mstyle} from "../utils/style_manager";
 import {ProgressBar} from "../component_classes/progress_bar";
 import {IQuestion, Option, OptionQuestion} from "../pojo/option";
@@ -92,7 +91,7 @@ export class HomeworkView extends View {
         } 
     }
     private getFuncBtns() {
-        let foot_func = $(`<div class='${homework_style.footFunc}'></div>'`)
+        let foot_func = $(`<tndiv class='${homework_style.footFunc}'></tndiv>'`)
         let left = $(`<div class='${homework_style.footFuncLeft}'></div>`)
         let right= $(`<div class='${homework_style.footFuncRight}'></div>`)
         let fill_choice_btn =  $(`<div class='${homework_style.homeworkSubmitBtn}'><label>填充所有题目...</label></div>`)
@@ -341,7 +340,7 @@ export class HomeworkView extends View {
     font-size: 25px;
     font-weight: bold;
 ">解锁此试卷</div>`))
-        root.append($(`<div style="text-align: center;">需要花费 1 点数解锁此试卷的解析.<br>在此次解锁之后,下次将不用再次解锁这份试卷,而可以直接看到解析.</div>`))
+        root.append($(`<div style="text-align: center;">需要花费 2 点数解锁此试卷的解析.<br>在此次解锁之后,下次将不用再次解锁这份试卷,而可以直接看到解析.</div>`))
         let btn = $(`<div class="${ordiBtn}">解锁</div>`)
         root.append(btn)
 

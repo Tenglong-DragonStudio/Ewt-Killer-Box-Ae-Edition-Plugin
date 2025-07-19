@@ -1,6 +1,6 @@
 import {View} from "./pub_view";
 import {FinishCourseAbstractService} from "../services/FinishCourseAbstractService";
-import {getUrlInfo} from "../utils/request";5
+import {getUrlInfo} from "../utils/request";
 import {FinishCourseController} from "../controller/FinishCourseController";
 import {
     basicInfoContainer,
@@ -19,6 +19,7 @@ import {IHomeworkService} from "../services/IHomeworkService";
 import {TaskCourse} from "../pojo/course";
 import {delay} from "../utils/stringutil";
 import {Paper} from "@/pojo/fih_objects";
+import {dict} from "@/type";
 export class CourseView extends View {
     coursec:FinishCourseController
     homeworkc:IHomeworkController
@@ -140,15 +141,20 @@ export class CourseView extends View {
 
         await this.homeworkc.FillOptionsAll()
         while (true) {
-            let dat = await this.homeworkc.GetTask()
-            if((<any>dat)["state"] == 200) {
-                fp.text(`填写选择题完成!`)
+            let dat:dict = await this.homeworkc.GetTask()
+            dat=dat["data"]
+            if(dat == undefined) {
+                fp.text(`错误:无效的任务.`)
                 break
-            } else if((<any>dat)["state"] >= 0){
-                fp.text(`进度${parseInt(String((<any>dat)["progress"] * 1000)) / 10}%`)
-            } else {
-                fp.text(`填写选择题失败.(-1)`)
+            } else if(dat["errcode"] != 0) {
+                fp.text(`错误:代码为${dat["errcode"]}/点击重试`)
                 break
+            } else if(dat["all"] == dat["do"]) {
+                fp.text(`填写完成!`)
+                break
+            } else if(dat["all"] > dat["do"]){
+                dat["progress"] = parseInt(String(dat["do"] / dat["all"] * 1000)) / 10
+                fp.text(`进度:${dat["progress"] * 1000}%`)
             }
             await delay(100)
         }

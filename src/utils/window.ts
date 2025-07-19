@@ -184,7 +184,7 @@ export function renderWindowMenu(btns:Array<JQuery<HTMLElement>>) {
 }
 
 export function isInCoursePage() {
-    return ($("[class^='course_package_container']").length != 0)
+    return window.location.href.indexOf("homework/play-videos") != -1
 }
 
 export function isInTaskPage() {

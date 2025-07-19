@@ -1,10 +1,10 @@
-import { ProgressBar } from "../component_classes/progress_bar";
-import { user } from "../main";
-import { MissionService } from "../services/MissionService";
-import {delay, getDateFromStamp} from "../utils/stringutil";
-import { task_style } from "../utils/style_manager";
+import { ProgressBar } from "@/component_classes/progress_bar";
+import { user } from "@/main";
+import { MissionService } from "@/services/MissionService";
+import {delay, getDateFromStamp} from "@/utils/stringutil";
+import { task_style } from "@/utils/style_manager";
 import {View} from "./pub_view";
-import {MultiSelectionComponent} from "../component_classes/multi_selection";
+import {MultiSelectionComponent} from "@/component_classes/multi_selection";
 import {
     taskCourseBasicInfo,
     taskCourseElement,

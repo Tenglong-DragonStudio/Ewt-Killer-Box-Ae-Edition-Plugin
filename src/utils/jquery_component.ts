@@ -14,7 +14,7 @@ export function getTitleUpText(text:string) {
     return $("<div class='"+style["kewt-homework-text"]+style["kewt-homework-top"]+"'>"+text+"</div>")
 }
 
-export function getBtn(color:string,text:string,click:()=>{}) {
+export function getBtn(color:string,text:string,click:()=>any) {
     //@ts-ignore
     let btn = $("<div class='"+style["kewt-common-btn"]+" "+style["btn-"+color]+"' id='fh-btn'><label>"+text+"</label></div>")
     btn.click(click)

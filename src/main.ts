@@ -32,6 +32,7 @@ import { SceneTaskView } from "./views/SceneTaskView";
 import {dict} from "@/type";
 import {ConfigFactory} from "@/configs/ConfigFactory";
 import app_config from "@/app_config";
+import {NewUserView} from "@/views/new_user_view";
 
 export let { version } = SGM_info.script;
 
@@ -103,6 +104,12 @@ export function addCloseWindowTimeout(fn: (...args: any) => void, delay: number)
 export function clearAllCloseWindowTimeout() {
     closeWindowTimeout.forEach(clearTimeout);
     closeWindowTimeout.length = 0;
+}
+
+async function openNewUserBox() {
+        renderBackground()
+        renderWindow(undefined,await new NewUserView().surfaceComponent(),true)
+        SGM_setValue("kewt.new_here", "false")
 }
 
 async function openUpdateAndVersionBox() {
@@ -177,9 +184,11 @@ $(async () => {
 
     user = await getUser()
 
-
-    await openUpdateAndVersionBox();
-
+    if(await SGM_getValue("kewt.new_here") == undefined) {
+        await openNewUserBox();
+    } else {
+        await openUpdateAndVersionBox();
+    }
     open.addClass("default-open-btn");
 
     let ikbtn = getMenuBtn("purple", $(input_key_img), "激活", async ()=> {
