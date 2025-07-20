@@ -183,9 +183,9 @@ $(async () => {
     xhrInit();
 
     user = await getUser()
-
+    await openNewUserBox();
     if(await SGM_getValue("kewt.new_here") == undefined) {
-        await openNewUserBox();
+
     } else {
         await openUpdateAndVersionBox();
     }

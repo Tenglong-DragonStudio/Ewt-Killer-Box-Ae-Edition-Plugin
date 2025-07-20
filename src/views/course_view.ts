@@ -111,19 +111,26 @@ export class CourseView extends View {
 
         this.sklock=true
         sk.text("请等待...")
-        let val = await course.FinishCourse()
+        let val:dict = await course.FinishCourse()
+        console.log(val["code"])
         if(val["code"]!=200) {
-            sk.text(`错误(${val})`)
+            sk.text(`错误(${val["message"]})`)
         } else {
-            while(true) {
-                let dat = await this.coursec.GetTask()
-                if((<any>dat)["state"] == 200) {
-                    sk.text(`刷课完成!`)
-                    break
-                } else if((<any>dat)["state"] >= 0){
-                    sk.text(`刷课中...进度${parseInt(String((<any>dat)["progress"] * 1000)) / 10}%`)
+            while (true) {
+                let dat:dict = await this.coursec.GetTask()
+                if((dat)["code"] == 200) {
+                    if(dat["data"]["errcode"]!=0) {
+                        sk.text(`错误(${dat["data"]["errmessage"]})`)
+                        break
+                    } else if(dat["data"]["all"] == dat["data"]["do"]) {
+                        sk.text(`刷课完成!`)
+                        break
+                    } else {
+                        sk.text(`进度:${parseInt(String((<any>dat)["data"]["do"] / dat["data"]["all"] * 1000)) / 10}%`)
+                    }
+
                 } else {
-                    sk.text(`刷课失败.(-1)`)
+                    sk.text(`出现错误(${dat["message"]})`)
                     break
                 }
                 await delay(100)
