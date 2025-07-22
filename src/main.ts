@@ -54,7 +54,8 @@ async function openBox() {
     } else if (isInCoursePage()) {
         viewComponent = new CourseView().build().then(view => view.surfaceComponent());
     } else if (isInHolidayFrame()) {
-        viewComponent = new SceneTaskView().build(attr["sceneId"]).then(view => view.surfaceComponent());
+        // viewComponent = new SceneTaskView().build(attr["sceneId"]).then(view => view.surfaceComponent());
+        viewComponent = new SceneTaskView().build(attr["sceneId"]).surfaceComponent()
     } else {
         viewComponent = Promise.resolve(NoPage());
     }

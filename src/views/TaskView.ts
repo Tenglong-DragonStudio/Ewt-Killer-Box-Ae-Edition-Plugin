@@ -50,6 +50,7 @@ export class TaskView extends View {
     dayComp: {[key:string]:number} = {}
     homeworkId: string
 
+    mutexLock: boolean //控件互斥锁
     constructor() {
         super();
         this.loading = false;
@@ -58,6 +59,7 @@ export class TaskView extends View {
         this.daytask={}
         this.subjtask={}
         this.homeworkId = ""
+        this.mutexLock = false
     }
 
     build(homeworkId:string) {
@@ -125,7 +127,7 @@ export class TaskView extends View {
         let courseBtn = $(`<div class="${ordiBtn}" style="margin-right: 5px">刷课</div>`)
         let hwkBtn = $(`<div class="${ordiBtn}" style="margin-right: 5px">填写选择题</div>`)
         let fresh = $(`<div class="${ordiBtn}" style="margin-right: 0;">(当天)全(不)选...</div>`)
-        let uns = $(`<div class="${ordiBtn}" id="unselect" style="margin-right: 5px;margin-left: auto">反选所有已选(数量:${this.mission.selection_arr.length})...</div>`)
+        let uns = $(`<div class="${ordiBtn}" id="unselect" style="margin-right: 5px;margin-left: auto">清空已选(数量:${this.mission.selection_arr.length})...</div>`)
 
         hwkBtn.on('click',async ()=>{
             //@ts-ignore
@@ -161,7 +163,6 @@ export class TaskView extends View {
                     if(!$(i).prop('checked')) //未被选中
                         i.click()
                 }
-
         })
 
         uns.on('click',()=>{
@@ -170,7 +171,8 @@ export class TaskView extends View {
             let selected = $(`.${taskWindowSelected}`)
             if(selected.length!=0)
                 selected.click()
-            uns.text(`反选所有已选(数量:${this.mission.selection_arr.length})...`)
+            uns.text(`清空已选(数量:${this.mission.selection_arr.length})...`)
+            this.mutexLock = false
         })
 
         let warn = $(`<div class="" style="position: relative;font-size: 10px;border: 1px dashed gray;padding: 5px;border-radius: 5px;margin-top: 5px;">注意:操作(刷课,填选择题)完后任务不会自动反选,请<span style="color:red">手动反选</span>,以避免出现对某课程重复操作的情况.</div>`)
@@ -316,18 +318,22 @@ export class TaskView extends View {
         root.append(right_bar)
 
         $(document).on("click",`.dayTask.${taskWindowChoice}`,async (e)=>{
-            let element = $(e.target)
-            this.changeMenuOptions(e)
-            let timestamp = this.daytask[element.text()].timestamp
-            let dayid = this.daytask[element.text()].dayid
-            let data = await this.mission.getHomeworkDatedTask([dayid],
-            timestamp)
+            if(!this.mutexLock) {
+                this.mutexLock = true
+                let element = $(e.target)
+                this.changeMenuOptions(e)
+                let timestamp = this.daytask[element.text()].timestamp
+                let dayid = this.daytask[element.text()].dayid
+                let data = await this.mission.getHomeworkDatedTask([dayid],
+                    timestamp)
 
-            right_bar = $(`.${taskWindowRightBar}`)
-            right_bar.empty()
-            let s = this.getCourseComponent(data)
-            for(let c of s) {
-                right_bar.append(c)
+                right_bar = $(`.${taskWindowRightBar}`)
+                right_bar.empty()
+                let s = this.getCourseComponent(data)
+                for(let c of s) {
+                    right_bar.append(c)
+                }
+                this.mutexLock = false
             }
         })
 
@@ -351,16 +357,21 @@ export class TaskView extends View {
         root.append(right_bar)
 
         $(document).on("click",`.subjTask.${taskWindowChoice}`,async (e)=>{
-            let element = $(e.target)
-            this.changeMenuOptions(e)
-            let subjid = this.subjtask[element.text()]
-            let data = await this.mission.getHomeworkSubjTask(subjid)
+            if(!this.mutexLock) {
+                this.mutexLock = true
+                let element = $(e.target)
+                this.changeMenuOptions(e)
+                let subjid = this.subjtask[element.text()]
+                let data = await this.mission.getHomeworkSubjTask(subjid)
 
-            right_bar = $(`.${taskWindowRightBar}`)
-            right_bar.empty()
-            let s = this.getCourseComponent(data)
-            for(let c of s)
-                right_bar.append(c)
+                right_bar = $(`.${taskWindowRightBar}`)
+                right_bar.empty()
+                let s = this.getCourseComponent(data)
+                for(let c of s)
+                    right_bar.append(c)
+                this.mutexLock = false
+            }
+
         })
         return root
     }
@@ -402,24 +413,28 @@ export class TaskView extends View {
                 ipt.prop("checked",true)
 
             ipt.on("click",()=>{
-                if(!this.mission.existence(c.contentId,c.contentTypeName)) {
-                    let dict:any = {
-                        contentType:c.contentTypeName,
-                        id:c.contentId
-                    }
-                    if(dict.contentType=="试卷") dict["curl"] = c.contentUrl
-                    else if(dict.contentType=="课程讲") {
-                        dict["info"]={}
-                        dict["info"]["ratio"] = c.ratio
-                        dict["info"]["homeworkid"] = c.homeworkId
-                        dict["info"]["lessonid"] = c.contentId
-                        let url = getUrlInfo(c.contentUrl)
-                        dict["info"]["courseid"] = url["courseId"]
-                    }
-                    this.mission.addSelection(dict)
-                } else 
-                    this.mission.rmSelection(c.contentTypeName,c.contentId)
-                $("#unselect").text(`反选所有已选(数量:${this.mission.selection_arr.length})...`)
+                if(!this.mutexLock) {
+                    this.mutexLock = true
+                    if (!this.mission.existence(c.contentId, c.contentTypeName)) {
+                        let dict: any = {
+                            contentType: c.contentTypeName,
+                            id: c.contentId
+                        }
+                        if (dict.contentType == "试卷") dict["curl"] = c.contentUrl
+                        else if (dict.contentType == "课程讲") {
+                            dict["info"] = {}
+                            dict["info"]["ratio"] = c.ratio
+                            dict["info"]["homeworkid"] = c.homeworkId
+                            dict["info"]["lessonid"] = c.contentId
+                            let url = getUrlInfo(c.contentUrl)
+                            dict["info"]["courseid"] = url["courseId"]
+                        }
+                        this.mission.addSelection(dict)
+                    } else
+                        this.mission.rmSelection(c.contentTypeName, c.contentId)
+                    $("#unselect").text(`清空已选(数量:${this.mission.selection_arr.length})...`)
+                    this.mutexLock = false
+                }
             })
             inputbox.append(ipt)
             right_selection.append(inputbox)

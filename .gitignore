@@ -6,4 +6,4 @@ src/css/*.d.ts
 .vscode
 .DS_Store
 */.DS_Store
-main.user.js
+latest.js
