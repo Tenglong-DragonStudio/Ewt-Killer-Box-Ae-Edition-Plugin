@@ -412,7 +412,7 @@ export class TaskView extends View {
             if(this.mission.existence(c.contentId,c.contentTypeName))
                 ipt.prop("checked",true)
 
-            ipt.on("click",()=>{
+            ipt.on("click",()=> {
                 if(!this.mutexLock) {
                     this.mutexLock = true
                     if (!this.mission.existence(c.contentId, c.contentTypeName)) {
@@ -434,6 +434,8 @@ export class TaskView extends View {
                         this.mission.rmSelection(c.contentTypeName, c.contentId)
                     $("#unselect").text(`清空已选(数量:${this.mission.selection_arr.length})...`)
                     this.mutexLock = false
+                } else {
+                    ipt.prop("checked",!ipt.prop("checked")) //一经互斥锁锁住，不能操作
                 }
             })
             inputbox.append(ipt)
