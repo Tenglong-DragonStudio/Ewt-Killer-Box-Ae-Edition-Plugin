@@ -1,4 +1,4 @@
-import {View} from "./pub_view";
+import {View} from "./view";
 import {ExamPaperHomeworkService} from "../services/ExamPaperHomeworkService";
 import {circle_styles, homework_style, mstyle} from "../utils/style_manager";
 import {ProgressBar} from "../component_classes/progress_bar";
@@ -11,6 +11,9 @@ import {CourseHomeworkController, IHomeworkController} from "@/controller/Course
 import {delay} from "@/utils/stringutil";
 import { ordiBtn } from "@/css/index.css";
 import {dict} from "@/type";
+import {leftComponent} from "@/utils/view_util";
+import {user} from "@/main";
+import {windowBasicTwoParts} from "../css/index.css"
 
 export class HomeworkView extends View {
     private homeworkController : CourseHomeworkController;
@@ -58,8 +61,10 @@ export class HomeworkView extends View {
     }
 
     public async surfaceComponent(): Promise<JQuery<HTMLElement>> {
-        let root = $(`<div></div>`)
-        this.root_component = root
+        let root = $(`<div class="${windowBasicTwoParts}"></div>`)
+        let left = leftComponent(user)
+        let right = $(`<div style="flex: 1;padding-left: 10px;"></div>`)
+        this.root_component = right
         await this.homeworkController.papers[0].getPaperInfo()
         
         
@@ -72,6 +77,8 @@ export class HomeworkView extends View {
         }
         this.root_component.append(this.parentContainer)
         this.root_component.append(this.getFuncBtns())
+        root.append(left)
+        root.append(right)
         return root;
     }
 
@@ -115,6 +122,7 @@ export class HomeworkView extends View {
 
                 let finish = false
                 while (true) {
+                    if(super.forbid_request) return
                     let dat:dict = await this.homeworkController.GetTask()
                     dat=dat["data"]
                     if(dat == undefined) {

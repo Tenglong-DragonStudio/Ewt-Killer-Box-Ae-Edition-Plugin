@@ -1,4 +1,4 @@
-import {View} from "./pub_view";
+import {View} from "./view";
 import {FinishCourseAbstractService} from "../services/FinishCourseAbstractService";
 import {getUrlInfo} from "../utils/request";
 import {FinishCourseController} from "../controller/FinishCourseController";
@@ -11,15 +11,14 @@ import {
     tag,
     tagContainer
 } from "../css/course_view.css";
+import {windowBasicTwoParts} from "../css/index.css"
 import {CourseHomeworkController, IHomeworkController} from "../controller/CourseHomeworkController";
-import {parse} from "postcss";
-import {CommonCourse} from "../pojo/jmpcls_objects";
 import {ordiBtn} from "../css/index.css";
-import {IHomeworkService} from "../services/IHomeworkService";
 import {TaskCourse} from "../pojo/course";
 import {delay} from "../utils/stringutil";
-import {Paper} from "@/pojo/fih_objects";
 import {dict} from "@/type";
+import {leftComponent} from "@/utils/view_util";
+import {user} from "@/main";
 export class CourseView extends View {
     coursec:FinishCourseController
     homeworkc:IHomeworkController
@@ -29,6 +28,10 @@ export class CourseView extends View {
 
     fplock:boolean = false
     sklock:boolean = false; //两个功能按钮的状态
+
+    async onCreate() {
+        await this.homeworkc.addHomework(this.homeworkid,parseInt(this.lessonid))
+    }
 
     constructor() {
         super();
@@ -44,19 +47,15 @@ export class CourseView extends View {
 
     }
 
-    //这ts的史一样的构造规定，不允许同时用异步构造，没办法只好当这个函数为二次构造
-    //使用方案:let newInstance = (await (new XXX(arg1,arg2,...))).build()
-    async build() {
-        await this.homeworkc.addHomework(this.homeworkid,parseInt(this.lessonid))
-        return this
-    }
 
     async surfaceComponent(): Promise<JQuery<HTMLElement>> {
 
         let course:FinishCourseAbstractService = this.coursec.courses[0]
         let baseinfo:TaskCourse= await course.getCourseInfo()
-        let root = $(`
-            <div class="${pageMain}"></div>
+        let root = $(`<div class="${windowBasicTwoParts}"></div>`)
+        let left = leftComponent(user)
+        let right = $(`
+            <div class="${pageMain}" style="flex: 1;padding-left: 10px;"></div>
         `)
         let imge = $(`<div>
             <img src="https://web.ewt360.com/common/customer/study/img/play.png" class="${courseImg}"/>
@@ -97,12 +96,14 @@ export class CourseView extends View {
         func_con.append(sk)
         func_con.append(fp)
 
-        root.append(imge)
-        root.append(title)
-        root.append(tag_con)
-        root.append(info)
-        root.append(func_con)
+        right.append(imge)
+        right.append(title)
+        right.append(tag_con)
+        right.append(info)
+        right.append(func_con)
 
+        root.append(left)
+        root.append(right)
         return root;
     }
 
@@ -116,6 +117,7 @@ export class CourseView extends View {
             sk.text(`错误(${val})`)
         } else {
             while (true) {
+                if(super.forbid_request) return
                 let dat:dict = await this.coursec.GetTask()
                 if((dat)["code"] == 200) {
                     if(dat["data"]["errcode"]!=0) {
@@ -147,6 +149,7 @@ export class CourseView extends View {
 
         await this.homeworkc.FillOptionsAll()
         while (true) {
+            if(super.forbid_request) return
             let dat:dict = await this.homeworkc.GetTask()
             dat=dat["data"]
             if(dat == undefined) {

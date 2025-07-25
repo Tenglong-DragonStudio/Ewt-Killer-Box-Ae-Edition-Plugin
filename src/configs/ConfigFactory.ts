@@ -14,6 +14,12 @@ export class ConfigFactory {
             value: true
         })
 
+        this.configManager.register<boolean>({
+            name: "使用备用服务器",
+            id: "kewt.config.use_backup_server",
+            value: false
+        })
+
     }
 
     public async loadConfig() {
@@ -45,13 +51,14 @@ export class ConfigFactory {
         let target = this.configManager.getValue<boolean>(key)
         if(target == undefined) return
 
-        let id = await SGM_registerMenuCommand(target.name+ ":" + target.value.toString(),async () => {
+        let id: number = await SGM_registerMenuCommand(target.name+ ":" + target.value.toString(),async () => {
             await click(this)
         })
         async function click(fac:ConfigFactory) {
             await fac.setValue<boolean>(key,!(target.value))
             if(func) func()
             SGM_unregisterMenuCommand(id)
+
             id = await SGM_registerMenuCommand(target.name+ ":" + target.value.toString(),async () => {
                 await click(fac)
             })

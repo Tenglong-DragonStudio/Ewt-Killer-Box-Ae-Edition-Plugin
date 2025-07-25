@@ -1,5 +1,5 @@
-import {View} from "./pub_view";
-import {log_style} from "../utils/style_manager";
+import {View} from "../views/view";
+import {log_style} from "./style_manager";
 import {log} from "../main";
 
 export class LogView extends View {
@@ -17,7 +17,7 @@ export class LogView extends View {
         width: "60%"
     }]
 
-    surfaceComponent(): Promise<JQuery<HTMLElement>> | JQuery<HTMLElement> {
+    async surfaceComponent(): Promise<JQuery<HTMLElement>> {
 
         let root = $(`<div></div>`)
 
@@ -57,7 +57,15 @@ export class LogView extends View {
         <a href="https://github.com/SudoSuBash/EWT-Killer-Box-Full/issues" class="${log_style.bottomA}"
             style="">点击去到github页面的issue发送议题</a></div>`)
         root.append(bottom)
-        return root;
+        return Promise.resolve(root);
     }
 
+    async onCreate() {
+
+    }
+
+    async AfterCreate() {
+        const c = document.querySelector(`.${log_style.logTableContainer}`) as Element;
+        if (c) c.scrollTop = c.scrollHeight;
+    }
 }

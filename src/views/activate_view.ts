@@ -1,10 +1,10 @@
 import {activateLeftBarContainerElement} from "@/css/activate.css";
-import {UserInfoInterface} from "@/dao/UserInfoDao";
+import {APIServerDao} from "@/dao/api_server_dao";
 import {addCloseWindowTimeout, updateUserInfo} from "@/main";
 import {check_ok_img, donate_img, fail_img, gift_card_img, wechat_pay_img, zfb_img} from "@/utils/resources";
 import {activate_style, mstyle, shop_style} from "@/utils/style_manager";
-import {closeWindow} from "@/utils/window";
-import {View} from "@/views/pub_view";
+import {closeWindow} from "@/utils/view_util";
+import {View} from "@/views/view";
 import {dict} from "@/type";
 import {ShopItem} from "@/pojo/shopitems";
 import {activateInfoBox, activateInfoKvV, smallOrdiBtn} from "@/css/index.css";
@@ -19,12 +19,12 @@ interface SelectBoxElementAsync {
 export class ActivateView extends View {
     right:JQuery<HTMLElement>;
     selected_page: number
-    userInfo:UserInfoInterface
+    userInfo:APIServerDao
     selected_element: JQuery<HTMLElement>
 
     constructor() {
         super();
-        this.userInfo = new UserInfoInterface();
+        this.userInfo = new APIServerDao();
         this.selected_element = $()
         this.selected_page = 0;
         this.right = $(`<div class="${activate_style.activatePage}">从左边选择一个页面以继续.</div>`)
@@ -249,7 +249,7 @@ export class ActivateView extends View {
             }
         })
         
-        async function pay(way:number,uinfo:UserInfoInterface) {
+        async function pay(way:number,uinfo:APIServerDao) {
             if(selected_sid == -1) {
                 text_status.css("color","red")
                 text_status.text("请先选择一个商品后再继续.")

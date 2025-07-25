@@ -1,0 +1,187 @@
+.task-head-component {
+    background-size: 100%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 5px;
+    position: relative;
+}
+
+.task-info {
+    width: 100%;
+    text-align: center;
+    z-index: 1;
+}
+
+.task-info-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+}
+
+.task-info-bg-img {
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    border-radius: 5px
+}
+
+.task-title {
+    font-weight: bolder;
+    color: black;
+}
+
+.task-date {
+    margin-top: 3px;
+    color: black;
+    font-size: 12px;
+}
+
+.task-prog-c-c {
+    width: 100%;
+    font-size: 12px;
+}
+
+.task-prog-c {
+    display: flex;
+    margin-bottom: 3px;
+    color: white;
+    font-weight: bolder;
+    font-size: 12px;
+    /* scale: 0.9; */
+}
+
+.task-prog-r {
+    margin-left: auto;
+}
+
+.task-prog-l {
+
+}
+
+.task-window {
+    width: 100%;
+    display: flex;
+    border-radius: 5px;
+    height: 300px;
+    overflow-y: auto;
+    background-color: #1c1d1f;
+}
+
+.task-window-left-bar {
+    width: 25%;
+    height: 100%;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+    background-color: #44484c;
+    overflow-y:auto;
+}
+
+.task-window-right-bar {
+    height:100%;
+    width: 75%;
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+    background-color: #1c1d1f;
+    overflow-y:auto;
+}
+
+.task-window-title {
+    margin-top: 20px;
+    margin-left: 8px;
+    font-size: 25px;
+    padding-bottom: 7px;
+    color: wheat;
+}
+
+.task-window-choices {
+    margin-bottom: 10px;
+    color: #ffffffde;
+}
+
+.task-window-selected {
+    background-color: #272727c7;
+    box-shadow: 0 0 5px gray;
+}
+
+.task-window-choice {
+    padding: 5px 5px 5px 10px;
+}
+
+.task-window-not-selected {
+    background-color: inherit;
+    transition: background-color 200ms;
+}
+
+.task-window-not-selected:hover {
+    background-color: #80808059;
+}
+
+.task-course-element {
+    padding: 7px;
+    display: flex;
+    align-items: center;
+}
+
+.task-course-eleright {
+
+    margin-left: 5px;
+    flex: 01;
+
+}
+
+.task-course-title {
+
+    font-weight: bolder;
+    color: #bebebe;
+    font-size: 13px;
+    width:230px;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task-course-basic-info {
+
+    display: flex;
+
+}
+
+.task-info-circle {
+
+    font-size: 9px;
+    padding: 2px 5px;
+    background-color: #636363;
+    border-radius: 3px;
+    color: white;
+    margin-top: 2px;
+
+}
+
+.task-selection-box {
+    margin-left: auto;
+    margin-right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+}
+
+.task-time {
+    font-size: 11px;
+}
+
+.task-selection {
+    margin-top: 2px;
+}
+
+.task-footer {
+    margin-top: 5px;
+    display: flex;
+    position: relative;
+}

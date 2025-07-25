@@ -1,31 +1,29 @@
-import {TaskView} from "@/views/TaskView";
+import {CourseListView} from "@/views/CourseListView";
 import {CourseHomeworkController} from "@/controller/CourseHomeworkController";
 import {FinishCourseController} from "@/controller/FinishCourseController";
 import {user} from "@/main";
 import {MissionService} from "@/services/MissionService";
-import {NoPage} from "@/utils/window";
 
-export class SceneTaskView extends TaskView {
+export class SceneCourseListView extends CourseListView {
     sceneId: string;
     loadComplete: number
-    constructor() {
-        super();
-        this.sceneId = ""
+
+    constructor(sceneid:string) {
+        super("");
+        this.sceneId = sceneid
         this.loadComplete = 0 //Suspend
     }
 
 
-    build(sceneid:string): this {
-        this.sceneId = sceneid
+    async onCreate() {
         super.fihHomework = new CourseHomeworkController().buildWithoutLessonId()
         super.ficCourse = new FinishCourseController()
-        new MissionService(user).buildWithSceneId(sceneid).then((res)=>{
+        new MissionService(user).buildWithSceneId(this.sceneId).then((res)=>{
             this.loadComplete = 1
             super.mission = res
         }).catch(()=>{
             this.loadComplete = -1
         })
-        return this
     }
 
     async loadData() {
@@ -38,7 +36,7 @@ export class SceneTaskView extends TaskView {
                 if(this.loadComplete == 1) {
                     resolv(await super.surfaceComponent())
                 } else {
-                    resolv(NoPage())
+                    resolv($(`<div>当前没有任务.</div>`))
                 }
             })
 

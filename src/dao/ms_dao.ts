@@ -1,6 +1,6 @@
 import {headers} from "../utils/constants";
-import {request, requestJson, validateReturn} from "../utils/request";
-import {user} from "../main";
+import {validateReturn} from "../utils/request";
+import {requestObject, user} from "../main";
 import { dict } from "@/type";
 
 export class MissionDao {
@@ -25,13 +25,13 @@ export class MissionDao {
             taskDistributionTypeEnum: taskDistributionTypeEnum,
             schoolId:user.school
         }
-        let res:any = await requestJson("POST",this.DAY_URL,headers.CommonHeader,data);
+        let res:any = await requestObject.requestJson("POST",this.DAY_URL,headers.CommonHeader,data);
         return validateReturn(res["responseText"])
     }
 
     //获取整个作业id
     async getMissionInfo(hid:string | number,sid:string | number) {
-        let res:any = await request("GET",this.MISSIONS_INFO_URL.replace("{hid}",String(hid)).replace("{sid}",String(sid)),headers.CommonHeader);
+        let res:any = await requestObject.request("GET",this.MISSIONS_INFO_URL.replace("{hid}",String(hid)).replace("{sid}",String(sid)),headers.CommonHeader);
         return validateReturn(res["responseText"]);
     }
 
@@ -46,13 +46,13 @@ export class MissionDao {
             sceneId: 0,
             schoolId: user.school
         }
-        let res:any = await requestJson("POST",this.HOMEWORK_TASKS_URL,headers.CourseHeader,data);
+        let res:any = await requestObject.requestJson("POST",this.HOMEWORK_TASKS_URL,headers.CourseHeader,data);
         return validateReturn(res["responseText"]);
     }
 
     async getHomeworkSummaryInfo(sceneId:string) {
         let url = this.HOMEWORK_SUMMARY_INFO.replace("{schoolId}", exports.user.school || "").replace("{timestamp}", String(Date.now())).replace("{sceneId}", String(parseInt(sceneId)));
-        let res:dict = <dict>await request("GET", url, headers.CommonHeader, null);
+        let res:dict = <dict>await requestObject.request("GET", url, headers.CommonHeader, null);
         return validateReturn(res["responseText"]);
       }
 
@@ -65,7 +65,7 @@ export class MissionDao {
             "subjectId":subjectid,
             "schoolId":user.school
         }
-        let res:any = await requestJson("POST",this.HOMEWORK_TASKS_URL,headers.CourseHeader,data);
+        let res:any = await requestObject.requestJson("POST",this.HOMEWORK_TASKS_URL,headers.CourseHeader,data);
         return validateReturn(res["responseText"]);
     }
 
@@ -79,7 +79,7 @@ export class MissionDao {
             schoolId: schoolId
         }
 
-        let res:any = await requestJson("POST",url,headers.CourseHeader,data)
+        let res:any = await requestObject.requestJson("POST",url,headers.CourseHeader,data)
         return validateReturn(res["responseText"])
     }
 
@@ -91,7 +91,7 @@ export class MissionDao {
             sceneId: sceneid
         }
 
-        let res:any = await requestJson("POST",url,headers.CommonHeader,data)
+        let res:any = await requestObject.requestJson("POST",url,headers.CommonHeader,data)
         return validateReturn(res["responseText"])
     }
 
@@ -104,7 +104,7 @@ export class MissionDao {
             homeworks: homeworks,
             mustLearnSubjectList: mustLearnSubj
         }
-        let res:any = await requestJson("POST",url,headers.CommonHeader,data)
+        let res:any = await requestObject.requestJson("POST",url,headers.CommonHeader,data)
 
         return validateReturn(res["responseText"])
     }
@@ -125,7 +125,7 @@ export class MissionDao {
             "isLoading": false,
             "dayId": dayId
         }
-        let res:any = await requestJson("POST",url,headers.CommonHeader,data)
+        let res:any = await requestObject.requestJson("POST",url,headers.CommonHeader,data)
         return validateReturn(res["responseText"])
     }
 
@@ -145,7 +145,7 @@ export class MissionDao {
             "isLoading": false,
             "subjectId":subjectId
         }
-        let res:any = await requestJson("POST",url,headers.CommonHeader,data)
+        let res:any = await requestObject.requestJson("POST",url,headers.CommonHeader,data)
         return validateReturn(res["responseText"])
     }
 }

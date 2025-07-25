@@ -1,10 +1,10 @@
 import purchaseHistory from "@/css/purchase_history.css";
-import { View } from "./pub_view";
-import { UserInfoInterface } from "@/dao/UserInfoDao";
+import { View } from "./view";
+import { APIServerDao } from "@/dao/api_server_dao";
 import { history_purchase_svg } from "@/utils/resources";
 
 export class PurchaseHistoryView extends View {
-    private uInterface: UserInfoInterface;
+    private uInterface: APIServerDao;
 
     table_dic: Array<{
         name:string,
@@ -28,7 +28,6 @@ export class PurchaseHistoryView extends View {
 
     async surfaceComponent(): Promise<JQuery<HTMLElement>> {
         let val = await this.getOrderItem();
-        console.log(val)
         let root =$(`<div class="${purchaseHistory.purchaseHistoryMain}"></div>`)
         root.append(history_purchase_svg)
         root.append($(`<div class="${purchaseHistory.purchaseHistoryText}">历史购买记录</div>`))
@@ -64,7 +63,7 @@ export class PurchaseHistoryView extends View {
     
     public constructor() {
         super();
-        this.uInterface = new UserInfoInterface();
+        this.uInterface = new APIServerDao();
     }
 
     private async getOrderItem() {

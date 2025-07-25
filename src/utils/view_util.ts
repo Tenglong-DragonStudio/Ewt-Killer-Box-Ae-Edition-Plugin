@@ -8,8 +8,9 @@ import app_config from "../app_config";
 import {getUrlInfo} from "./request";
 import {User} from "@/pojo/user";
 import {getDateTimeFromStamp} from "@/utils/stringutil";
-import {UserInfoInterface} from "@/dao/UserInfoDao";
+import {APIServerDao} from "@/dao/api_server_dao";
 import {dict} from "@/type";
+import {View} from "@/views/view";
 
 let op_entire = $()
 export function  isOnPractisePage() {
@@ -54,7 +55,6 @@ export function renderBackground() {
 
 
 export function closeWindow() {
-
     clearAllCloseWindowTimeout();
     let bg = $("#"+mstyle.windowBg);
     let wm = $("#"+mstyle.windowMain);
@@ -66,7 +66,7 @@ export function closeWindow() {
 }
 
 export function leftComponent(userInfo:User) {
-    let uinterface = new UserInfoInterface();
+    let uinterface = new APIServerDao();
     let root = $("<div class='"+mstyle.leftComponent+"'></div>")
 
     let rcontainer = $("<div style='line-height: 17px;display: flex;align-items: center;flex-direction: column'></div>")
@@ -140,9 +140,7 @@ export function leftComponent(userInfo:User) {
 }
 
 export function renderWindow(
-    leftComponent:JQuery<HTMLElement> | undefined,
     bodyComponent:JQuery<HTMLElement> | undefined,
-    hasCloseToggle:boolean,
     width?:string,
     style?: string
 ) {
@@ -150,20 +148,9 @@ export function renderWindow(
     let windowMain = $(`<div id='${mstyle.windowMain}' style="width: ${qwidth}"></div>`);
     let bg = $("#"+mstyle.windowBg)
 
-    if(leftComponent != null) windowMain.append(leftComponent);
     let kewtWindowBody = $(`<div class="${mstyle.kewtWindowBody}" style="${style}"></div>`);
     if(bodyComponent != null) kewtWindowBody.append(bodyComponent);
     windowMain.append(kewtWindowBody)
-
-    if(hasCloseToggle) {
-        let closeBtn = $(`<div id='`+mstyle.closeBtn+`'>
-            <label class='`+mstyle.closeBtnLabel+`'>C</label>
-        </div>`)
-        closeBtn.mouseup(()=>{
-            closeWindow();
-        });
-        windowMain.append(closeBtn)
-    }
 
     $("#"+mstyle.windowBg).empty();
     bg.prepend(windowMain);
@@ -199,30 +186,4 @@ export function isInHolidayFrame() {
     let s = getUrlInfo(window.location.href)
     let b = ('sceneId' in s) && s['sceneId']!=undefined;
     return window.location.href.indexOf('holiday') && b
-}
-
-export function NoPage() {
-    let root = $("<div style='line-height: 25px;'></div>")
-
-
-    let c:{[p:string]:JQuery<HTMLElement>} = {
-        "去任务列表选任务":getBlueFBtn("<span style='font-weight: bolder;color: white'>-> GO!</span>",()=>{
-            location.reload();
-            window.location.href="https://teacher.ewt360.com/ewtbend/bend/index/index.html#/student/homework"}),
-        "去假期页面":getBlueFBtn("<span style='font-weight: bolder;color: white'>-> GO!</span>",()=>{
-            location.reload();
-            window.location.href="https://teacher.ewt360.com/ewtbend/bend/index/index.html#/holiday/student/entry"}),
-    }
-    root.append($("<h1 style='font-size: 32px;font-weight: bolder'>菜单</h1>"))
-    root.append($("<div style='font-size: 12px;margin-top: 5px'>你现在没有打开任何页面,从下面的列表选一项以继续:</div>"))
-    let container = $("<div class='"+mstyle.nopageContainer+"'></div>")
-    for(let d in c) {
-        let ele = $("<div class='"+mstyle.nopageLst+"'><span class='"+mstyle.nopageLstTitle+"'>"+d+"</span></div>")
-        c[d].css("margin-left",'auto')
-        c[d].css("margin-right",'0')
-        ele.append(c[d])
-        container.append(ele)
-    }
-    root.append(container)
-    return root
 }

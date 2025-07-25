@@ -10,7 +10,8 @@
     "web.ewt360.com",
     "gateway.ewt360.com",
     "clog.ewt360.com",
-    "api.olcoursekb.top"],
+    "api.olcoursekb.top",
+    "api2.olcoursekb.top"],
   "@grant": ["unsafeWindow",
     "GM_registerMenuCommand",
     "GM_unregisterMenuCommand"]

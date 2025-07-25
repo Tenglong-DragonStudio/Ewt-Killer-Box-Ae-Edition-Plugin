@@ -600,7 +600,7 @@ p {
 
 .left-component {
     width: 200px;
-    border-radius: 10px 0px 0px 10px;
+    border-radius: 10px;
     background-color: #ffffff1c;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
@@ -690,4 +690,8 @@ p {
     margin-left: auto;
     margin-right: 0;
     text-align: right;
+}
+
+.window-basic-two-parts {
+    display: flex;
 }

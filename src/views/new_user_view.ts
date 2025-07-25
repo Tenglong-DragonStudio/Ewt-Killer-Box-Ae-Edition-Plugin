@@ -1,4 +1,4 @@
-import {View} from "@/views/pub_view";
+import {View} from "@/views/view";
 import {nuser_view_style} from "@/utils/style_manager";
 import {getBtn} from "@/utils/jquery_component";
 import index from "@/css/index.css";
@@ -71,14 +71,14 @@ export class NewUserView extends View {
         this.index = 0
         this.targetPage.append(this.pages[this.index])
         this.pageShowText = $(`<div style="margin-left: 15px;font-weight: bolder;"></div>`)
-        console.log(this.pages)
+
     }
-    surfaceComponent(): JQuery<HTMLElement> | Promise<JQuery<HTMLElement>> {
+    async surfaceComponent():Promise<JQuery<HTMLElement>> {
         let root = $(`<div></div>`)
 
         root.append(this.targetPage)
         root.append(this.getFooter())
-        return root
+        return Promise.resolve(root)
     }
 
     private getFooter() {

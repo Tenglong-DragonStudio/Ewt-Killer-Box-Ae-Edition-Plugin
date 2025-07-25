@@ -1,8 +1,8 @@
-import {request, requestJson, validateLanReturn, validateReturn} from "../utils/request";
+import {validateLanReturn, validateReturn} from "../utils/request";
 import {headers } from "../utils/constants";
 import {TaskCourse} from "../pojo/course";
 import Config from "../app_config";
-import {user} from "../main";
+import {requestObject, user} from "../main";
 import { dict } from "@/type";
 
 export class CourseDao { //详细逻辑处理
@@ -18,7 +18,7 @@ export class CourseDao { //详细逻辑处理
             schoolId: schoolid,
             homeworkId: parseInt(homeworkid.toString())
         }
-        let result: any = await requestJson("POST", this.COURSE_DETAIL, headers.CourseHeader, data)
+        let result: any = await requestObject.requestJson("POST", this.COURSE_DETAIL, headers.CourseHeader, data)
         let res: any = validateReturn(result["responseText"])
         if (res.videoPlayTime != undefined) {
             res.duration = res.videoPlayTime
@@ -39,7 +39,7 @@ export class CourseDao { //详细逻辑处理
     }>> {
 
         let data = {"lessonIdList": lessonIds, "homeworkId": homeworkid, "schoolId": schoolid}
-        let res: any = await requestJson("POST", this.LESSON_HOMEWORK_URL, headers.CommonHeader, data)
+        let res: any = await requestObject.requestJson("POST", this.LESSON_HOMEWORK_URL, headers.CommonHeader, data)
         return <Array<{ studyTest: { paperId: string } }>>validateReturn(res["responseText"])
     }
 
@@ -56,7 +56,7 @@ export class CourseDao { //详细逻辑处理
         }
 
         let url = this.COURSE_BATCH_URL
-        let res: any = await requestJson("POST", url, headers.CommonHeader, data)
+        let res: any = await requestObject.requestJson("POST", url, headers.CommonHeader, data)
         return validateLanReturn(res["responseText"])
 
     }
@@ -64,7 +64,7 @@ export class CourseDao { //详细逻辑处理
     async GetTaskFn(uuid:string) {
         let url = this.CHECK_STATE_URL
             .replace("{tid}",uuid)
-        let res: any = await request("GET", url, headers.CommonHeader, undefined)
+        let res: any = await requestObject.request("GET", url, headers.CommonHeader, undefined)
         return validateLanReturn(res["responseText"])
     }
 }

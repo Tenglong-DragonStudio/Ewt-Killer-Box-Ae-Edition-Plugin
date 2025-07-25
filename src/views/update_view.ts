@@ -1,5 +1,5 @@
 import { update_info_style } from "@/utils/style_manager";
-import { View } from "./pub_view";
+import { View } from "./view";
 import { update_svg } from "@/utils/resources";
 
 export class CheckUpdateView extends View {

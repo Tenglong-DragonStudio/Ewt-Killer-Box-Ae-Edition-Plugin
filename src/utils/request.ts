@@ -1,7 +1,67 @@
-import { log, user } from "../main";
+import {log, user} from "../main";
 import { headers } from "./constants";
 import {SGM_xmlhttpRequest} from "./function";
 
+export class NetRequest {
+
+    request(method:"GET" | "HEAD" | "POST" | undefined,
+                            url:string,
+                            headers?:{[key:string]:any},
+                            data?:any)
+    {
+        if(!headers) headers = {}
+        headers["Referer"] = "ewt360"
+        headers["ck-userskript"] = document.cookie  //ck-userskript: for userscript users
+        return new Promise(resolve => {SGM_xmlhttpRequest({
+            method: method,
+            url: url,
+            data: data,
+            headers: headers,
+            anonymous: true,
+            cookie: document.cookie,
+            //@ts-ignore
+            beforeSend: function (xhr) {
+                //@ts-ignore
+                xhr.withCredentials = true
+            },
+            onload: (res) => {
+                resolve(res)
+            },
+            onerror: (res)=>{
+                resolve(res)
+            }})
+        });
+    }
+
+    requestJson(method:"GET" | "POST" | "HEAD" | undefined,
+                                url:string,
+                                headers:{[key:string]:string},
+                                data:{[key:string]:string} | Object) {
+
+        headers["Content-Type"]="application/json";
+        return new Promise(resolve => {SGM_xmlhttpRequest({
+            method: method,
+            url: url,
+            data: JSON.stringify(data),
+            headers: headers,
+            cookie: document.cookie,
+            //@ts-ignore
+            beforeSend: function (xhr) {
+                //@ts-ignore
+                xhr.withCredentials = true
+            },
+            onload: (res) => {
+                resolve(res)
+            },
+            onerror: (res)=>{
+                resolve(res)
+            }})
+
+
+        });
+    }
+
+}
 export function validateReturn(Value:string) : Object {
     let json = JSON.parse(Value);
     if(json["code"] == 429) throw Error()
@@ -27,62 +87,6 @@ export function validateAPIReturn(Value:string) : Object {
 }
 
 
-export function request(method:"GET" | "HEAD" | "POST" | undefined,
-    url:string,
-    headers?:{[key:string]:any},
-    data?:any) 
-{
-    if(!headers) headers = {}
-    headers["Referer"] = "ewt360"
-    headers["ck-userskript"] = document.cookie  //ck-userskript: for userscript users
-    return new Promise(resolve => {SGM_xmlhttpRequest({
-        method: method,
-        url: url,
-        data: data,
-        headers: headers,
-        anonymous: true,
-        cookie: document.cookie,
-        //@ts-ignore
-        beforeSend: function (xhr) {
-            //@ts-ignore
-                xhr.withCredentials = true
-            },
-        onload: (res) => {
-            resolve(res)
-        },
-        onerror: (res)=>{
-            resolve(res)
-        }})
-    });
-}
-
-export function requestJson(method:"GET" | "POST" | "HEAD" | undefined,
-    url:string,
-    headers:{[key:string]:string},
-    data:{[key:string]:string} | Object) {
-
-    headers["Content-Type"]="application/json";
-    return new Promise(resolve => {SGM_xmlhttpRequest({
-        method: method,
-        url: url,
-        data: JSON.stringify(data),
-        headers: headers,
-        cookie: document.cookie,
-        //@ts-ignore
-        beforeSend: function (xhr) {
-                        //@ts-ignore
-                xhr.withCredentials = true
-            },
-        onload: (res) => {
-            resolve(res)
-        },
-        onerror: (res)=>{
-            resolve(res)
-        }})
-
-
-    });
-}
 
 export function getUrlInfo(url?:string) {
     let urlc = url || window.location.href
@@ -95,10 +99,4 @@ export function getUrlInfo(url?:string) {
         result[k] = v;
     }
     return result;
-}
-
-export async function getStdTime() {
-    let res:any = await request("GET","https://f.m.suning.com/api/ct.do",headers.CommonHeader,null)
-    let time = JSON.parse(res.responseText).currentTime
-    return time
 }

@@ -2,8 +2,9 @@
     display: flex;
     flex-direction: column;
     width: 30%;
-    background-color: #b3b1b182;
+    background-color: rgba(165, 163, 163, 0.51);
     color: black;
+    border-radius: 10px;
 }
 
 .activate-left-bar-title {

@@ -1,6 +1,5 @@
 import {SGM_getValue, SGM_setValue} from "../utils/function";
 import {getDateFromStamp, getDateTimeFromStamp} from "../utils/stringutil";
-import {getStdTime} from "../utils/request";
 
 export interface ILogSystem {
     info: (text:string) => string

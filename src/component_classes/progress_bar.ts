@@ -1,12 +1,13 @@
 import app_config from "../app_config";
 import {homework_style, mstyle, progress_style} from "../utils/style_manager";
+import {dict} from "@/type";
 
 export class ProgressBar {
     progresso: JQuery<HTMLElement>;
     progressi: JQuery<HTMLElement>;
 
     value: number
-    public constructor(value: number,styles?:{[key:string]:string}) {
+    public constructor(value: number,styles?:{[key:string]:string},inner_color?:string) {
 
         this.progresso = $(`<div class='${progress_style.progressBarOut}'></div>`)
         this.progressi = $(`<div class='${progress_style.progressBarIn}'></div>`)
@@ -14,6 +15,8 @@ export class ProgressBar {
             for(let i in styles) {
                 this.progresso.css(i,styles[i])
             }
+        if(inner_color != undefined)
+            this.progressi.css("background-color",inner_color)
         this.value = value
         this.progresso.append(this.progressi)
     }

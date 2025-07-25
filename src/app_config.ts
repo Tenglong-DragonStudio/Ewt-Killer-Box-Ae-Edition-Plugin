@@ -12,11 +12,15 @@ let app_config = {
         "scrollbar_80p_to_100p": 50
     },
     "last-build-time":"2025.07.22",
-    //"mip": "http://127.0.0.1:8000",
-    //"payip": "http://127.0.0.1:8001",
+    "backup_server": {
+        "mip": "https://api2.olcoursekb.top/ekb",
+        "payip": "https://api2.olcoursekb.top/pay",
+    },
     "mip": "https://api.olcoursekb.top/ekb",
     "payip": "https://api.olcoursekb.top/pay",
-    "version": 25018
+    // "mip": "http://127.0.0.1:8000",
+    // "payip": "http://127.0.0.1:8001",
+    "version": 25019
 }
 
 export default app_config

@@ -1,11 +1,17 @@
+import {UUID} from "@/utils/stringutil";
+
 
 export abstract class View {
     protected lock:boolean;
     elements:Array<JQuery<Element>>;
+    viewId: string
+    protected forbid_request: boolean
 
     constructor() {
         this.lock = false
         this.elements = [];
+        this.viewId = UUID()
+        this.forbid_request = false
     }
 
     pushElement(ele:JQuery<HTMLElement>) {
@@ -25,5 +31,20 @@ export abstract class View {
         this.lock = lock;
     }
 
-    abstract surfaceComponent() : Promise<JQuery<HTMLElement>> | JQuery<HTMLElement>;
+    getViewId() {
+        return this.viewId
+    }
+
+    async onDestroy() {
+        this.forbid_request = true
+    }
+
+    async onCreate() {
+
+    }
+
+    async AfterCreate() {
+
+    }
+    abstract surfaceComponent() : Promise<JQuery<HTMLElement>>;
 }
